@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+int visited[10] = { 0 };
+
 typedef struct stack {
 	int arr[1000];
 	int top;
@@ -61,18 +63,25 @@ void backTracking(stack* s, int *numArr,int num, int S, int B)
 		for (int i = 0; i <= 2; i++) {
 			n += (s->arr[2-i] * (pow(10, i)));
 		}
+		if (numArr[n] == 0)
+			return;
 		if ( checking(n, num, S, B) == 0) //checking S, B
-		{
 			numArr[n] = 0;
-		}
 		return;
 	}
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 10; i++)
 	{
+		if (visited[i] == 1)
+			continue;
+		visited[i] = 1;
+		
 		push(s, i);
+		
 		backTracking(s, numArr, num, S, B);
+		
 		pop(s);
+		visited[i] = 0;
 	}
 }
 
@@ -92,9 +101,8 @@ int main()
 		tmp2 = (i / 10) % 10;
 		tmp3 = i % 10;
 		
-		if (numArr < 122)
-			numArr[i] = 0;
-		else if (tmp1 == tmp2 || tmp1 == tmp3 || tmp2 == tmp3)
+		
+		if (tmp1 == tmp2 || tmp1 == tmp3 || tmp2 == tmp3)
 			numArr[i] = 0;
 		else if (tmp1 == 0 || tmp2 == 0 || tmp3 == 0)
 			numArr[i] = 0;
