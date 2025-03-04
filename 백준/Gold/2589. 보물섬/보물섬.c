@@ -12,15 +12,13 @@ typedef struct GraphNode {
 }GraphNode;
 typedef struct GraphType {
 	int n;
-	int cntLink[2500];
-	GraphNode *node[2500];
+	GraphNode* node[2500];
 }GraphType;
 
 void init(GraphType* g)
 {
 	g->n = 0;
 	for (int i = 0;i < 2500; i++) {
-		g->cntLink[i] = 0;
 		g->node[i] = NULL;
 	}
 }
@@ -30,8 +28,6 @@ void insert_edge(GraphType* g, int u, int v)
 	gn->vertex = v;
 	gn->link = g->node[u];
 	g->node[u] = gn;
-
-	g->cntLink[v] += 1;
 }
 
 typedef struct QueueType {
@@ -40,11 +36,11 @@ typedef struct QueueType {
 	int front;
 }QueueType;
 
-void push(QueueType *q, int n)
+void push(QueueType* q, int n)
 {
 	q->queue[++(q->rear)] = n;
 }
-int pop(QueueType *q)
+int pop(QueueType* q)
 {
 	return q->queue[++(q->front)];
 }
@@ -117,29 +113,29 @@ int main()
 			if (map[i][j] == 'L')
 			{
 
-				if(i != N-1 && map[i+1][j] == 'L')
+				if (i != N - 1 && map[i + 1][j] == 'L')
 				{
-					insert_edge(g, ((i+1)*M + j), (i*M+j));
-					insert_edge(g, (i * M + j), ((i+1) * M + j));
+					insert_edge(g, ((i + 1) * M + j), (i * M + j));
+					insert_edge(g, (i * M + j), ((i + 1) * M + j));
 				}
-				if(j != M-1 && map[i][j+1] == 'L')
+				if (j != M - 1 && map[i][j + 1] == 'L')
 				{
-					insert_edge(g, (i * M + (j+1)), (i * M + j));
-					insert_edge(g, (i * M + j), (i * M + (j+1)));
+					insert_edge(g, (i * M + (j + 1)), (i * M + j));
+					insert_edge(g, (i * M + j), (i * M + (j + 1)));
 				}
 			}
 		}
 	}
 
 	int visited[2500] = { 0 };
-	
+
 	int t;
 	int maxNum = -1;
 	for (int i = 0; i < N; i++)
 	{
 		for (int j = 0; j < M; j++)
 		{
-			if (g->cntLink[i * M + j] != 0 && visited[i * M + j] == 0) {
+			if (map[i][j] == 'L' && visited[i * M + j] == 0) {
 				t = bfs(g, visited, i * M + j, N * M);
 				memset(visited, 0, sizeof(int) * 2500);
 				if (t > maxNum)
