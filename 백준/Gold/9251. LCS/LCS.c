@@ -1,34 +1,35 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <string.h>
-#define max(a, b) (a > b ? a : b)
 
-int LCS[1002][1002];
-char str[1002];
-char str2[1002];
+#define MAX(x,y) ((x) > (y) ? (x) : (y))
 
 int main()
 {
-	scanf("%s %s", str, str2);
-	int i, j;
-	i = 1;
-	while (i <= strlen(str))
+	char t1[1002];
+	char t2[1002];
+
+	int s[1002][1002] = { 0 };
+
+	scanf("%s %s", t1, t2);
+
+	for (int i = 1; i <= strlen(t1); i++)
 	{
-		j = 1;
-		while (j <= strlen(str2))
+		for (int j = 1; j <= strlen(t2); j++)
 		{
-			if (str2[j - 1] == str[i - 1])
+			if (t1[i-1] == t2[j-1])
 			{
-				LCS[i][j] = LCS[i - 1][j - 1] + 1;
+				s[i][j] = s[i-1][j-1] + 1;
 			}
 			else
 			{
-				LCS[i][j] = max(LCS[i - 1][j], LCS[i][j - 1]);
+				s[i][j] = MAX(s[i][j - 1], s[i - 1][j]);
 			}
-			j++;
 		}
-		i++;
 	}
-	printf("%d", LCS[i - 1][j - 1]);
-    
-    return 0;
+
+	printf("%d", s[strlen(t1)][strlen(t2)]);
+
+	return 0;
 }
