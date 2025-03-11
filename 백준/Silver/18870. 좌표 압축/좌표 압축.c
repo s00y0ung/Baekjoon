@@ -5,7 +5,6 @@
 
 typedef struct {
 	long long x;
-	int cnt;
 	int order;
 }point;
 
@@ -23,13 +22,11 @@ void merge(point *p, int left, int mid, int right)
 		if (p[i].x <= p[j].x)
 		{
 			sort[k].x = p[i].x;
-			sort[k].cnt = p[i].cnt;
 			sort[k++].order = p[i++].order;
 		}
 		else
 		{
 			sort[k].x = p[j].x;
-			sort[k].cnt = p[j].cnt;
 			sort[k++].order = p[j++].order;
 		}
 	}
@@ -39,7 +36,6 @@ void merge(point *p, int left, int mid, int right)
 		while (j <= right)
 		{
 			sort[k].x = p[j].x;
-			sort[k].cnt = p[j].cnt;
 			sort[k++].order = p[j++].order;
 		}
 	}
@@ -48,7 +44,6 @@ void merge(point *p, int left, int mid, int right)
 		while (i <= mid)
 		{
 			sort[k].x = p[i].x;
-			sort[k].cnt = p[i].cnt;
 			sort[k++].order = p[i++].order;
 		}
 	}
@@ -56,7 +51,6 @@ void merge(point *p, int left, int mid, int right)
 	for (int w = left; w <= right; w++)
 	{
 		p[w].x = sort[w].x;
-		p[w].cnt = sort[w].cnt;
 		p[w].order = sort[w].order;
 	}
 
@@ -70,16 +64,13 @@ void get_cnt(point* p, int cntArr[])
 	{
 		if (p[prev].x >= p[i].x)
 		{
-			p[i].cnt = p[prev].cnt;
+			cntArr[p[i].order] = cntArr[p[prev].order];
 		}
 		else
 		{
-			p[i].cnt = p[prev].cnt + 1;
+			cntArr[p[i].order] = cntArr[p[prev].order] +1;
 		}
 	}
-
-	for (int i = 0; i < N; i++)
-		cntArr[p[i].order] = p[i].cnt;
 
 	for (int i = 0; i < N; i++)
 		printf("%d ", cntArr[i]);
@@ -106,7 +97,6 @@ int main()
 	{
 		cntArr[i] = 0;
 
-		p[i].cnt = 0;
 		p[i].order = i;
 		scanf("%lld", &(p[i].x));
 	}
