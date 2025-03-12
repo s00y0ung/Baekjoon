@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#define MAX_NUM 1000001
+#define MAX_NUM 100001
 
 int main()
 {
@@ -10,7 +10,7 @@ int main()
 	scanf("%d %d", &N, &M);
 
 	long long tmp;
-	long long prefix[MAX_NUM] = { 0 };
+	long long prefix = 0;
 	long long cnt[1000] = { 0 };
 
 	long long result = 0;
@@ -18,13 +18,12 @@ int main()
 	for (int i = 1; i <= N; i++)
 	{
 		scanf("%lld", &tmp);
-		prefix[i] = prefix[i - 1] + tmp;
-		prefix[i] = prefix[i] % M;
-
-		if (prefix[i] == 0)
+		prefix = prefix + tmp;
+		
+		if (prefix%M == 0)
 			result += 1;
 
-		cnt[prefix[i]] += 1;
+		cnt[prefix%M] += 1;
 	}
 	
 	for (int i = 0; i < M; i++)
