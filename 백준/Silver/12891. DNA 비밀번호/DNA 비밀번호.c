@@ -2,16 +2,6 @@
 
 #include <stdio.h>
 
-int check_dna(int password[], int an, int cn, int gn, int tn)
-{
-	if (password[0] < an) return -1;
-	if (password[1] < cn) return -1;
-	if (password[2] < gn) return -1;
-	if (password[3] < tn) return -1;
-
-	return 1;
-}
-
 int main()
 {
 	int P, S;
@@ -42,7 +32,7 @@ int main()
 	int cnt = 0;
 	while (e < S)
 	{
-		if (check_dna(password, an, cn, gn, tn) == 1)
+		if(password[0] >= an && password[1] >= cn && password[2] >= gn && password[3] >= tn)
 			cnt++;
 
 		password[dna[s]] -= 1;
