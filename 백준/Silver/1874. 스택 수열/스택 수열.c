@@ -1,28 +1,25 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
-#include <stdlib.h>
 
-typedef struct StackType {
-	int top;
-	int arr[100000];
-}StackType;
+int arr[100001];
+int top = -1;
 
 char ch[200002] = { '\0' };
 int c = 0;
 
-void push(StackType* s, int item)
+void push(int item)
 {
-	s->arr[++s->top] = item;
+	arr[++top] = item;
 	ch[c++] = '+';
 }
-int pop(StackType* s)
+int pop()
 {
-	if (s->top == -1)
+	if (top == -1)
 		return -1;
 
 	ch[c++] = '-';
-	return s->arr[s->top--];
+	return arr[top--];
 }
 
 int main()
@@ -30,9 +27,6 @@ int main()
 	int N;
 	scanf("%d", &N);
 
-	StackType* s = (StackType *)malloc(sizeof(StackType));
-	s->top = -1;
-	
 	int cnt = 1, n, start = 1;
 	int tmp, flag = 1;
 	while (cnt <= N)
@@ -41,21 +35,21 @@ int main()
 		if(start <= n)
 		{
 			for (start; start <= n; start++)
-				push(s, start);
-			pop(s);
+				push(start);
+			pop();
 		}
 		else {
 
-			tmp = pop(s);
+			tmp = pop();
 			
 			while (tmp != n)
 			{
-				if (s->top == -1)
+				if (top == -1)
 				{
 					flag = 0;
 					break;
 				}
-				tmp = pop(s);
+				tmp = pop();
 			}
 		}
 		cnt++;
@@ -70,7 +64,6 @@ int main()
 		printf("NO\n");
 	}
 	
-	free(s);
 
 	return 0;
 }
