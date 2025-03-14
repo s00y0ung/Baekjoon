@@ -2,45 +2,22 @@
 
 #include <stdio.h>
 
-void merge(int* list, int left, int mid, int right)
+#define SWAP(x,y,t) ((t)=(x), (x)=(y), (y)=(t))
+#define MAX_SIZE 10
+
+void insertionSort(int *arr, int N)
 {
-	int i = left;
-	int j = mid + 1;
-	int k = left;
-
-	int sort[10];
-
-	while (i <= mid && j <= right)
+	int minPos = 0;
+	int tmp;
+	for (int i = 0; i < N-1; i++)
 	{
-		if (list[i] >= list[j])
-			sort[k++] = list[i++];
-		else
-			sort[k++] = list[j++];
-	}
-
-	if (i > mid)
-	{
-		while (j <= right)
-			sort[k++] = list[j++];
-	}
-	else
-	{
-		while (i <= mid)
-			sort[k++] = list[i++];
-	}
-
-	for (int w = left; w <= right; w++)
-		list[w] = sort[w];
-
-}
-void mergeSort(int* list, int left, int right)
-{
-	if (left < right)
-	{
-		int mid = (left + right) / 2;
-		mergeSort(list, left, mid);
-		mergeSort(list, mid + 1, right);
-		merge(list, left, mid, right);
+		minPos = i;
+		for (int j = i+1; j < N; j++)
+		{
+			if (arr[minPos] < arr[j])
+				minPos = j;
+		}
+		SWAP(arr[i], arr[minPos], tmp);
 	}
 }
 
@@ -49,18 +26,21 @@ int main()
 	int N;
 	scanf("%d", &N);
 
-	int arr[10] = { 0 };
-	int cnt = 0;
-	while (N > 0)
+	int arr[MAX_SIZE];
+	int size = 0;
+	for (size = 0; size < 10; size++)
 	{
-		arr[cnt++] = N % 10;
-		N /= 10;
-	}
-	mergeSort(arr, 0, cnt - 1);
+		arr[size] = N % 10;
 
-	for (int i = 0; i < cnt; i++)
+		N = N / 10;
+		if (N == 0)
+			break;
+	}
+
+	insertionSort(arr, size+1);
+	for (int i = 0; i <= size; i++)
 		printf("%d", arr[i]);
 	printf("\n");
-	
+
 	return 0;
 }
