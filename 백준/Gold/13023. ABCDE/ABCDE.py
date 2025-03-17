@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def dfs(n, depth):
     global flag
     if depth >= 5 or flag:
@@ -11,19 +14,21 @@ def dfs(n, depth):
 
     visited[n] = 0
 
-N, M = map(int, input().split())
-graph = [[] for i in range(N)]
-visited = [0 for i in range(N)]
-flag = 0
+if __name__ == "__main__":
+    N, M = map(int, input().split())
+    graph = [[] for i in range(N)]
+    visited = [0 for i in range(N)]
 
-for i in range(M):
-    f1,f2 = map(int, input().split())
-    graph[f1].append(f2)
-    graph[f2].append(f1)
+    for i in range(M):
+        f1,f2 = map(int, input().split())
+        graph[f1].append(f2)
+        graph[f2].append(f1)
 
-for i in range(N):
-    dfs(i, 1)
-    if flag == 1:
-        break;
-print(flag)
+    flag = 0
+    for i in range(N):
+        dfs(i, 1)
+        if flag == 1:
+            break;
+
+    print(flag)
 
