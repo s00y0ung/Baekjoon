@@ -3,23 +3,12 @@
 #include <stdio.h>
 #include <math.h>
 
-int stack[10];
-int top = -1;
-
-void push(int item)
-{
-	stack[++top] = item;
-}
-int pop()
-{
-	return stack[top--];
-}
-
+int N;
 int is_prime(int prime)
 {
 	if (prime <= 1)
 		return -1;
-	for (int i = 2; i < prime; i++)
+	for (int i = 2; i*i <= prime; i++)
 	{
 		if (prime % i == 0)
 			return -1;
@@ -27,39 +16,27 @@ int is_prime(int prime)
 	return 1;
 }
 
-void backTracking(int prime, int N, int size)
+void backTracking(int num, int size)
 {
-	if (top >= N-1)
+	if (size >= N)
 	{
-		for (int i = 0; i < N; i++)
-			printf("%d", stack[i]);
-		printf("\n");
+		printf("%d\n", num);
 		return;
 	}
+
 	for (int i = 1; i < 10; i++)
 	{
-		int cur = i;
-		for (int s = top, e = 0; s >= 0; s--, e++)
-		{
-			cur += (stack[e] * pow(10, s+1));
-		}
-
-		if (is_prime(cur) == 1)
-			push(i);
-		else
-			continue;
-
-		backTracking(i, N, size);
-		pop();
+		int n = num * 10 + i;
+		if (is_prime(n) == 1)
+			backTracking(n, size + 1);
 	}
 }
 
 int main()
 {
-	int N;
 	scanf("%d", &N);
 
-	backTracking(2, N, pow(10, N));
+	backTracking(0, 0);
 
 	return 0;
 }
