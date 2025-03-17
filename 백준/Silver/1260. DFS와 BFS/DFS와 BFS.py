@@ -1,27 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-def bfs(graph, s):
-    visited = [s]
+def bfs(s):
+    global visited, graph
+    visited[s] = 1
     queue = [s]
 
-    while len(queue) != 0:
+    while queue:
         q = queue.pop(0)
         print(q, end=" ")
 
         for e in graph[q]:
-            if e not in visited:
-                visited.append(e)
+            if not visited[e]:
+                visited[e] = 1
                 queue.append(e)
 
 
-def dfs(graph, visited, s):
-    visited.append(s)
+def dfs(s):
+    global visited, graph
+    visited[s] = 1
     print(s, end=" ")
 
     for e in graph[s]:
-        if e not in visited:
-            dfs(graph, visited, e)
+        if not visited[e]:
+            dfs(e)
 
 
 if __name__ == "__main__":
@@ -36,6 +38,8 @@ if __name__ == "__main__":
 
     for i in range(1, N+1):
         graph[i].sort()
-    dfs(graph,[], V)
+    dfs(V)
     print()
-    bfs(graph, V)
+
+    visited = [0 for i in range(N+1)]
+    bfs(V)
