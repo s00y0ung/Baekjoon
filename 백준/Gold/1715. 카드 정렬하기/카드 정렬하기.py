@@ -5,7 +5,8 @@ N = int(input())
 
 cardHeap = []
 for i in range(N):
-    heapq.heappush(cardHeap, int(input()))
+    cardHeap.append(int(input()))
+heapq.heapify(cardHeap)
 
 cnt = 0
 while len(cardHeap) > 1:
