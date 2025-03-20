@@ -1,16 +1,14 @@
-num_list = list(input().split('-'))
+num_list = input().split('-')
+ans = []
 
-for n in range(len(num_list)):
-    if '+' in num_list[n]:
-        p_list = list(num_list[n].split('+'))
-        p = 0
-        for pNum in p_list:
-            p += int(pNum)
-        num_list[n] = p
-    else:
-        num_list[n] = int(num_list[n])
+for n in num_list:
+    cnt = 0
+    s = n.split('+')
+    for j in s:
+        cnt += int(j)
+    ans.append(cnt)
 
-ans = num_list[0]
-for i in range(1, len(num_list)):
-    ans -= num_list[i]
-print(ans)
+n = ans[0]
+for i in range(1, len(ans)):
+    n -= ans[i]
+print(n)
