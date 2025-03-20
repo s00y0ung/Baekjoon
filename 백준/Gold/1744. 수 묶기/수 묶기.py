@@ -1,39 +1,36 @@
 import sys
-import heapq
 input = sys.stdin.readline
 
 N = int(input())
 
 heapP = []
 heapM = []
-ans = []
+ans = 0
 
 for i in range(N):
     t = int(input())
     if t <= 0:
         heapM.append(t)
     elif t == 1:
-        ans.append(1)
+        ans += 1
     else:
-        heapP.append(-1*t)
+        heapP.append(t)
 
-heapq.heapify(heapP)
-heapq.heapify(heapM)
+heapP.sort(reverse=True)
+heapM.sort()
 
 # positive
-while len(heapP) > 1:
-    h1 = heapq.heappop(heapP)
-    h2 = heapq.heappop(heapP)
-    ans.append(h1*h2)
-if len(heapP) == 1:
-    ans.append(heapP[0] * -1)
+for i in range(0, len(heapP),2):
+    if i+1 < len(heapP):
+        ans += (heapP[i] * heapP[i+1])
+    else:
+        ans += heapP[i]
 
 # negative
-while len(heapM) > 1:
-    h1 = heapq.heappop(heapM)
-    h2 = heapq.heappop(heapM)
-    ans.append(h1*h2)
-if len(heapM) == 1:
-    ans.append(heapM[0])
+for i in range(0, len(heapM), 2):
+    if i+1 < len(heapM):
+        ans += (heapM[i]* heapM[i+1])
+    else:
+        ans += (heapM[i])
 
-print(sum(ans))
+print(ans)
