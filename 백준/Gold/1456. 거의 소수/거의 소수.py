@@ -1,27 +1,24 @@
-n, m = map(int, input().split())
-a = [i for i in range(int(m ** 0.5)+1)]
-a[0] = 0
-a[1] = 0
-result = 0
+def solve():
+    A, B = map(int, input().split())
 
-# 첫번째 반복문
-for i in range(2, int(len(a) ** 0.5)+1):
-    if a[i] == 0:
-        continue
-    
-    for j in range(i+i, len(a), i):
-        a[j] = 0
+    prime = [True] * (int(B ** 0.5)+1)
+    prime[1] = False
+    almost_prime_cnt = 0
 
-# 두번째 반복문
-for i in a:
-    if a[i] == 0:
-        continue
-    
-    tmp = i
-    
-    while tmp <= m:
-        tmp *= i
-        if n <= tmp <= m:
-            result += 1
+    for i in range(2, int(B ** 0.5)+1):
+        if prime[i] == 0:
+            continue
+        for j in range(i+i, int(B**0.5)+1, i):
+            prime[j] = False
 
-print(result)
+    for i in range(2, int(B ** 0.5)+1):
+        if prime[i]:
+            tmp = i
+            while tmp <= B:
+                tmp *= i
+                if A <= tmp <= B:
+                    almost_prime_cnt += 1
+
+    print(almost_prime_cnt)
+
+solve()
