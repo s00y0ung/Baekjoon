@@ -11,13 +11,11 @@ def solve():
         for j in range(i+i, int(B**0.5)+1, i):
             prime[j] = False
 
-    for i in range(2, int(B ** 0.5)+1):
-        if prime[i]:
-            tmp = i
-            while tmp <= B:
-                tmp *= i
-                if A <= tmp <= B:
-                    almost_prime_cnt += 1
+        tmp = i*i
+        while tmp <= B:
+            if A <= tmp:
+                almost_prime_cnt += 1
+            tmp = tmp * i
 
     print(almost_prime_cnt)
 
