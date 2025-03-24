@@ -1,5 +1,3 @@
-
-
 def solve():
     N = int(input())
     prime = [i for i in range(int(N ** 0.5)+1)]
@@ -15,6 +13,8 @@ def solve():
             p.append(i)
             while ans % i == 0:
                 ans = ans // i
+            if ans == 1:
+                break
 
         for k in range(i+i, int(N**0.5)+1,i):
             prime[k]=0
