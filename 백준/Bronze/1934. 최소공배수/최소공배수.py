@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
+
 def solve():
     A, B = map(int, input().split())
     m,n = A,B
