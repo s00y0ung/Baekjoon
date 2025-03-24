@@ -1,6 +1,6 @@
 def solve():
     MIN, MAX = map(int, input().split())
-    prime = [ i for i in range(MIN, MAX+1)]
+    prime = [ 1 for i in range(MIN, MAX+1)]
 
     for i in range(2, int(MAX ** 0.5)+1):
         s = i*i
@@ -9,10 +9,6 @@ def solve():
             if j >= MIN:
                 prime[j-MIN] = 0
 
-    cnt = 0
-    for p in prime:
-        if p != 0:
-            cnt += 1
-    print(cnt)
+    print(sum(prime))
 
 solve()
