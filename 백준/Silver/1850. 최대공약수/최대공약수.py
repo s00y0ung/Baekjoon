@@ -4,7 +4,6 @@ def solve():
     while B != 0:
         A, B = B, A%B
 
-    for i in range(A):
-        print(1,end="")
+    print('1'*A)
 
 solve()
