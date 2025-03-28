@@ -8,15 +8,16 @@ def bfs(x):
     depth = 0
 
     while len(que) != 0:
+
         for k in range(len(que)):
             n = que.pop(0)
-            for i in range(len(graph[n])):
-                if visited[graph[n][i]] == -1:
-                    que.append(graph[n][i])
-                    visited[graph[n][i]] = visited[n]+1
-                    if visited[graph[n][i]] > depth:
-                        depth = visited[n]+1
-        if depth >= K:
+            for i in graph[n]:
+                if visited[i] == -1:
+                    que.append(i)
+                    visited[i] = visited[n] + 1
+                    if visited[i] > depth:
+                        depth = visited[i]
+        if depth > K:
             break
             
     if K not in visited:
@@ -27,9 +28,10 @@ def bfs(x):
                 print(i)
     return 0
 
-N, M, K, X =map(int, input().split())
-graph = [[] for _ in range(N+1)]
-visited = [-1] * (N+1)
+
+N, M, K, X = map(int, input().split())
+graph = [[] for _ in range(N + 1)]
+visited = [-1] * (N + 1)
 
 for i in range(M):
     A, B = map(int, input().split())
