@@ -1,8 +1,11 @@
-N = int(input())
+import sys
+input = sys.stdin.readline
+
+N = int(input().strip())
 
 d = set()
 for i in range(N):
-    d.add(input())
+    d.add(input().strip())
 
 d = list(d)
 d = sorted(d, key = lambda x : (len(x),x))
