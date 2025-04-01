@@ -1,3 +1,5 @@
+import sys
+input = sys.stdin.readline
 def union(x, y):
     x_root = find(x)
     y_root = find(y)
