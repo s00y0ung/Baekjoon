@@ -8,14 +8,21 @@ N = int(input())
 diff_list = []
 
 pre = int(input())
-for _ in range(N-1):
-    next = int(input())
-    diff_list.append(next-pre)
-    pre = next
+next = int(input())
+diff_list.append(next - pre)
+
+pre = next
+next = int(input())
+diff_list.append(next-pre)
 
 g = gcd(diff_list[0], diff_list[1])
-for d in range(2,N-1):
-    g = gcd(diff_list[d], g)
+pre = next
+
+for _ in range(N-3):
+    next = int(input())
+    diff_list.append(next-pre)
+    g = gcd(g, next-pre)
+    pre = next
 
 ans = 0
 for d in diff_list:
