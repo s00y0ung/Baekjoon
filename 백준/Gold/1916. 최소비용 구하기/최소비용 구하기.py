@@ -11,6 +11,8 @@ def dijkstra(start):
         dist, cur = heapq.heappop(q)
 
         if distance[cur] < dist:
+            if end == cur:
+                break
             continue
 
         for next in graph[cur]:
