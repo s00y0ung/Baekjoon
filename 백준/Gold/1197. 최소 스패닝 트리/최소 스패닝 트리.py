@@ -30,10 +30,14 @@ for _ in range(E):
 edges.sort(key = lambda x : x[2])
 
 result = 0
+count = 0
 for e in edges:
     u,v,w = e
     if find(u) == find(v):
         continue
     unionByRank(rank,u,v)
     result += w
+    count += 1
+    if count >= V-1:
+        break
 print(result)
