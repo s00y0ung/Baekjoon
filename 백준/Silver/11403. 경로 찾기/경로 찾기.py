@@ -1,19 +1,20 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
-graph = [[] for _ in range(N)]
+def dfs(root, start):
 
-for i in range(N):
-    graph[i] = list(map(int, input().split()))
-
-for k in range(N):
     for i in range(N):
-        if graph[i][k] == 0:
-            continue
-        for j in range(N):
-            if graph[i][j] == 0 and graph[k][j] != 0:
-                graph[i][j] = 1
-for b in graph:
-    print(*[b[i] if b[i] > 0 else 0 for i in range(N)])
- 
+        if visited[root][i] == 0 and graph[start][i] != 0:
+            visited[root][i] = 1
+            dfs(root,i)
+
+N = int(input())
+graph =[[] for _ in range(N)]
+visited = [[0 for _ in range(N)] for _ in range(N)]
+for idx in range(N):
+    graph[idx] = list(map(int, input().split()))
+
+for idx in range(N):
+    dfs(idx, idx)
+for b in visited:
+    print(*[b[i] for i in range(N)])
