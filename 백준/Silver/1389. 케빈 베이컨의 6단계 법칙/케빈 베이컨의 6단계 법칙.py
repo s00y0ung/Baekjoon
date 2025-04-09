@@ -1,26 +1,37 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
 
+def bfs(start):
+    q = deque()
+    q.append(start)
+
+    visited = [0 for _ in range(N+1)]
+    cnt = 1
+    while q:
+
+        for _ in range(len(q)):
+            n = q.popleft()
+            for idx in graph[n]:
+                if visited[idx] == 0:
+                    visited[idx] = cnt
+                    q.append(idx)
+        cnt += 1
+    return sum(visited) - visited[start]
+
 N, M = map(int, input().split())
-graph = [[1e9 for _ in range(N+1)] for _ in range(N+1)]
+graph = [[] for _ in range(N+1)]
 for _ in range(M):
     a, b = map(int, input().split())
-    graph[a][b] = 1
-    graph[b][a] = 1
+    graph[a].append(b)
+    graph[b].append(a)
 
-for k in range(1, N+1):
-    for i in range(1, N+1):
-        for j in range(1, N+1):
-            if graph[i][j] > graph[i][k] + graph[k][j]:
-                graph[i][j] = graph[i][k] + graph[k][j]
-
-min_idx = -1
 min_value = 1e9
+min_idx = -1
+for i in range(1,1+N):
+    r = bfs(i)
+    if min_value > r:
+        min_value = r
+        min_idx = i
 
-for idx in range(1, N+1):
-    s = sum(graph[idx]) - graph[idx][0] - graph[idx][idx]
-    if min_value > s:
-        min_value = s
-        min_idx = idx
-        
 print(min_idx)
