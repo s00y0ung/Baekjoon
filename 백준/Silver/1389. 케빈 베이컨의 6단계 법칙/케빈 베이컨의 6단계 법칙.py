@@ -1,22 +1,18 @@
 import sys
-from collections import deque
 input = sys.stdin.readline
 
 def bfs(start):
-    q = deque()
-    q.append(start)
-
+    q = [start]
     visited = [0 for _ in range(N+1)]
-    cnt = 1
     while q:
 
         for _ in range(len(q)):
-            n = q.popleft()
+            n = q.pop(0)
             for idx in graph[n]:
                 if visited[idx] == 0:
-                    visited[idx] = cnt
+                    visited[idx] = visited[n]+1
                     q.append(idx)
-        cnt += 1
+
     return sum(visited) - visited[start]
 
 N, M = map(int, input().split())
