@@ -7,25 +7,21 @@ def find(x):
         x = parent[x]
     return x
 
-def unionByRank(rank,a,b):
+def unionByRank(a,b):
     a = find(a)
     b = find(b)
 
     if a == b:
         return
 
-    if rank[a] < rank[b]:
+    if a < b:
         parent[a] = b
-    elif rank[a] > rank[b]:
-        parent[b] = a
     else:
-        rank[b] += 1
-        parent[a] = b
+        parent[b] = a
 
 N = int(input())
 graph = []
 parent = [i for i in range(N)]
-rank = [0 for i in range(N)]
 ans = 0
 
 for j in range(N):
@@ -48,7 +44,7 @@ while graph:
     if g == 0:
         continue
 
-    unionByRank(rank,i,j)
+    unionByRank(i,j)
     cnt += 1
     ans -= g
     if cnt >= N-1:
