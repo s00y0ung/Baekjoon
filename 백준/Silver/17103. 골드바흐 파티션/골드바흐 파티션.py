@@ -16,10 +16,8 @@ for _ in range(N):
     if prime[2] == 0 and prime[n-2] == 0:
         partition = 1
 
-    s = 3
-    while s <= n//2:
+    for s in range(3, n//2+1, 2):
         if prime[s] == 0 and prime[n-s] == 0:
             partition += 1
-        s += 2
 
     print(partition)
