@@ -1,19 +1,15 @@
-testNum = int(input())
+import sys
+input = sys.stdin.readline
 
-for _ in range(testNum):
-    floor = int(input())
-    room = int(input())
-    preList = []
-    nList = []
+T = int(input())
+a = [[0]*15 for _ in range(15)]
+a[0] = [i for i in range(15)]
 
-    for i in range(room+1):
-        preList.append(i)
-        nList.append(i)
+for i in range(1, 15):
+    for j in range(1, 15):
+        a[i][j] = a[i][j-1] + a[i-1][j]
 
-    for i in range(floor):
-        for j in range(room+1):
-            nList[j] = sum(preList[1:j+1])
-        preList = nList[:]
-        
-    
-    print(nList[-1])
+for _ in range(T):
+    N = int(input())
+    K = int(input())
+    print(a[N][K])
