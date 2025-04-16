@@ -16,6 +16,6 @@ K = int(input()) # K 개수
 
 total = sum(N_list)
 t = 0
-for idx in N_list:
-    t += get_c(idx, K)
-print(t/get_c(total, K))
+for n in N_list:
+    t += factorial(n) // (factorial(K) * factorial(n-K))
+print(t / (factorial(total) // (factorial(K) * factorial(total-K)))) 
