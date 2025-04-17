@@ -1,12 +1,12 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
-m = [1000000,0,1,1]
+def solve(x):
+    if x in ans:
+        return ans[x]
+    return 1 + min(solve(x//3)+x%3, solve(x//2) + x%2)
 
-for idx in range(4, N+1):
-    a = idx//2 if idx % 2 == 0 else 0
-    b = idx//3 if idx % 3 == 0 else 0
-    c = idx-1
-    m.append(min(m[a]+1,m[b]+1,m[c]+1))
-print(m[N])
+N = int(input())
+ans = {1:0, 2:1, 3:1}
+
+print(solve(N))
