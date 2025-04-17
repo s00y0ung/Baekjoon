@@ -1,6 +1,3 @@
-import sys
-input = sys.stdin.readline
-
 def solve(x):
     if x in ans:
         return ans[x]
