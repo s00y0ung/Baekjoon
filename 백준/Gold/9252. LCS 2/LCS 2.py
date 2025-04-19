@@ -1,13 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-s1 = [""] + list(input().rstrip())
-s2 = [""] + list(input().rstrip())
+s1 = [0] + list(input().rstrip())
+s2 = [0] + list(input().rstrip())
+l1 = len(s1)
+l2 = len(s2)
 
-g = [[""] * len(s2) for _ in range(len(s1))]
+g = [[""] * l2 for _ in range(l1)]
 
-for i in range(1,len(s1)):
-    for j in range(1,len(s2)):
+for i in range(1,l1):
+    for j in range(1,l2):
         if s1[i] == s2[j]:
             g[i][j] = g[i-1][j-1] + s1[i]
         else:
