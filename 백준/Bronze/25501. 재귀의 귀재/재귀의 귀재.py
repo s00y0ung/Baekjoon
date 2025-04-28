@@ -1,6 +1,8 @@
-n = int(input())
+import sys
+
+n = int(sys.stdin.readline().rstrip())
 for _ in range(n):
-    s = input()
+    s = sys.stdin.readline().rstrip()
 
     recur = 1
     isP = 1
