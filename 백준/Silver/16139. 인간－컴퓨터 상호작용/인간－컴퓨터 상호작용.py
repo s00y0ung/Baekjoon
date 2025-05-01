@@ -3,15 +3,12 @@ input = sys.stdin.readline
 
 S = input().rstrip()
 N = int(input())
-prefix = [[0 for _ in range(26)] for _ in range(len(S)+1)]
+prefix = [[0] * 26]
 
-for idx in range(1,len(S)+1):
-    t = ord(S[idx-1]) - 97
-    for j in range(26):
-        if j == t:
-            prefix[idx][t] = prefix[idx-1][t] + 1
-        else:
-            prefix[idx][j] = prefix[idx-1][j]
+for idx in S:
+    p = list(prefix[-1])
+    p[ord(idx)-97] += 1
+    prefix.append(p)
 
 for _ in range(N):
     alpha, l, r = input().split()
