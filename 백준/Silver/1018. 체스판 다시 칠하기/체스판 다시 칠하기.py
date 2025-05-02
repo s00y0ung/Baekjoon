@@ -1,55 +1,29 @@
-def get_num(board,i,j):
-    cnt = 0
-    predict = 'B'
-    
-    for r in range(i,i+8):
-        for c in range(j,j+8):
-            bw = board[r][c]
-            
-            if predict != bw:
-                cnt += 1
+import sys
+input = sys.stdin.readline
 
-            if c == j+7:
-                break
-                
-            elif predict == 'B': 
-                predict = 'W'
-            else: 
-                predict ='B'
+n, m = map(int, input().split())
+k = 8
+g = [list(input().rstrip()) for _ in range(n)]
+prefix = [[[0 for _ in range(m+1)] for _ in range(n+1)] for _ in range(2)]
+f_list = ['B','W']
+s_list = ['W','B']
+minValue = 1000000000
+for i in range(1, n+1):
+    for j in range(1, m+1):
+        prefix[0][i][j] = prefix[0][i-1][j] + prefix[0][i][j-1] - prefix[0][i-1][j-1]
+        prefix[1][i][j] = prefix[1][i-1][j] + prefix[1][i][j-1] - prefix[1][i-1][j-1]
 
-    predict = 'W'
-    cnt2 = 0
-    for r in range(i,i+8):
-        for c in range(j,j+8):
-            bw = board[r][c]
-            
-            if predict != bw:
-                cnt2 += 1
+        if g[i-1][j-1] != f_list[(i+j)%2]:
+            prefix[0][i][j] += 1
+        if g[i-1][j-1] != s_list[(i+j)%2]:
+            prefix[1][i][j] += 1
 
-            if c == j+7:
-                break
-                
-            elif predict == 'B': 
-                predict = 'W'
-            else: 
-                predict ='B'
-                
-    if cnt > cnt2:
-        return cnt2
-    return cnt
-    
-    
-N, M = map(int, input().split())
-board = []
+        if i > k-1 and j > k-1:
+            first = prefix[0][i][j] - prefix[0][i-k][j] - prefix[0][i][j-k] + prefix[0][i-k][j-k]
+            second = prefix[1][i][j] - prefix[1][i-k][j] - prefix[1][i][j-k] + prefix[1][i-k][j-k]
+            if first < minValue:
+                minValue = first
+            if second < minValue:
+                minValue = second
 
-for i in range(N):
-    b = input()
-    board.append(b)
-
-min_num = 100
-for i in range(0, N-7):
-    for j in range(0, M-7):
-        tmp = get_num(board, i, j)
-        if tmp < min_num:
-            min_num = tmp
-print(min_num)
+print(minValue)
