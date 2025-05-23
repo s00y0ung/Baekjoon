@@ -1,10 +1,12 @@
+import sys
+input = sys.stdin.readline 
 def backTracking(arr,start,N,S):
     global result
-    if sum(ans) == S and len(ans) > 0:
-        result += 1
 
     for i in range(start,N):
         ans.append(arr[i])
+        if sum(ans) == S:
+            result += 1
         backTracking(arr, i+1, N, S)
         ans.pop(-1)
 
