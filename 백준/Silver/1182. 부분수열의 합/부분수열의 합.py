@@ -1,19 +1,19 @@
-import sys
-input = sys.stdin.readline 
-def backTracking(arr,start,N,S):
-    global result
+def backTracking(idx, result):
+    global ans, arr, N, S
+    if idx == N:
+        if result == S:
+            ans += 1
+        return
 
-    for i in range(start,N):
-        ans.append(arr[i])
-        if sum(ans) == S:
-            result += 1
-        backTracking(arr, i+1, N, S)
-        ans.pop(-1)
+    backTracking(idx+1, result)
+    backTracking(idx+1, result+arr[idx])
+
 
 N, S = map(int, input().split())
 arr = list(map(int, input().split()))
 
-ans = []
-result = 0
-backTracking(arr, 0, N, S)
-print(result)
+ans = 0
+backTracking(0, 0)
+if S == 0:
+    ans -= 1
+print(ans)
