@@ -1,35 +1,31 @@
 name = input().rstrip()
-name_dic = {}
+name_list = [0 for i in range(26)]
 
-name = sorted(name)
 for n in name:
-    if n in name_dic:
-        name_dic[n] += 1
-    else:
-        name_dic[n] = 1
+    name_list[ord(n)-65] += 1
 
 flag = 0
 odd = '-'
 front = []
-rear = []
-
 tmp = 0
-for n_key, n_value in name_dic.items():
-    if n_value % 2 == 1:
+for idx in range(26):
+    if name_list[idx] == 0:
+        continue
+
+    if name_list[idx] % 2 == 1:
         if flag == 2:
-            ans = -1
             break
         flag += 1
-        odd = n_key
+        odd = chr(idx+65)
 
-    for i in range(n_value//2):
-        front.append(n_key)
-        rear.append(n_key)
+    for i in range(name_list[idx]//2):
+        front.append(chr(idx+65))
+        
 if flag == 1:
-    ans = front + [odd] + rear[::-1]
+    ans = front + [odd] + front[::-1]
 elif flag == 2:
     ans = ["I'm Sorry Hansoo"]
 else:
-    ans = front + rear[::-1]
+    ans = front + front[::-1]
 
 print(''.join(ans))
