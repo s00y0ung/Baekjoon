@@ -3,7 +3,7 @@ def bfs(s, i, j, N, M):
         return 1
 
     que = [(i,j)]
-    visited = [(i,j)]
+    visited = [[ 0 for i in range(M)] for j in range(N)]
     while que:
         i = que[0][0]
         j = que[0][1]
@@ -12,9 +12,9 @@ def bfs(s, i, j, N, M):
         if i == N - 1 or j == M - 1 or i == 0 or j == 0:
             return 1
         for x, y in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-            if s[i + x][j + y] == '-' and (i+x,j+y) not in visited:
+            if s[i + x][j + y] == '-' and visited[i+x][y+j] == 0:
                 que.append((i+x,j+y))
-                visited.append((i+x,y+j))
+                visited[i+x][j+y] = 1
     return -1
 
 def solution(storage, requests):
