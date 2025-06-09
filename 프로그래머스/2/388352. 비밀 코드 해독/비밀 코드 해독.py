@@ -1,29 +1,20 @@
-def secret(key, ans,q):
-    for k in range(len(q)):
-        cnt = 0
-        for num in q[k]:
-            if num in key:
-                cnt += 1
-        if cnt != ans[k]:
-            return -1
-    return 1
-
-def bt(n, size, q, ans, key, s, answer):
-    if size == 5:
-        if secret(key, ans, q) == 1:
-            answer += 1
-        return answer
-
-    for i in range(s,n+1):
-        if i in key:
-            continue
-        key.append(i)
-        answer = bt(n, size+1,q, ans, key,i+1, answer)
-        key.pop(-1)
-
-    return answer
+from itertools import combinations
 
 def solution(n, q, ans):
-    answer = bt(n,0, q,ans, [],1,0)
-    return answer
+    answer =0
+    all_comb = list(combinations(range(1, n+1),5))
+    for comb in all_comb:
+        cnt = 0
 
+        for k in range(len(ans)):
+            cnt = 0
+            for idx in range(5):
+                if q[k][idx] in comb:
+                    cnt += 1
+            if cnt != ans[k]:
+                cnt = -1
+                break
+        if cnt != -1:
+            answer += 1
+
+    return answer
