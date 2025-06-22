@@ -1,11 +1,9 @@
 def solution(arr):
-    answer = [arr[0]]
-    prev = arr[0]
+    answer = []
     
     for a in arr:
-        if prev == a:
+        if answer and answer[-1] == a:
             continue
-        prev = a
         answer.append(a)
     
     return answer
