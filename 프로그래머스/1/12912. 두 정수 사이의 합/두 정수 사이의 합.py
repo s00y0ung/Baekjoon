@@ -1,2 +1,2 @@
 def solution(a, b):
-    return sum(range(min(a,b), max(a,b)+1))
+    return (b+a)*(abs(b-a)+1) / 2
