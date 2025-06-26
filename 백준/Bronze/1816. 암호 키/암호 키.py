@@ -1,10 +1,9 @@
-tc = int(input())
-for _ in range(tc):
-    num = int(input())
-
-    for i in range(2, 1000001):
-        if num % i == 0:
-            print("NO")
+m = int(input())
+for i in range(m):
+    n = int(input())
+    flag = 'YES'
+    for j in range(2,min(n, 10**6)):
+        if n % j == 0:
+            flag = 'NO'
             break
-        if i == 1000000:
-            print("YES")
+    print(flag)
