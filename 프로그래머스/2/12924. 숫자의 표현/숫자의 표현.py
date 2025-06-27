@@ -1,14 +1,10 @@
-def solution(n):
+def solution(num):
     answer = 0
-    q = []
-    for i in range(1,n+1):
-        q.append(i)
-        if sum(q) < n:
-            continue
-
-        while sum(q) > n:
-            q.pop(0)
-        if sum(q) == n:
-            print(q)
+    for i in range(1, num+1):
+        summ = 0
+        while (summ < num):
+            summ += i
+            i += 1
+        if summ == num:
             answer += 1
     return answer
