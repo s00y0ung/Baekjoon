@@ -1,18 +1,17 @@
-def bt(k, dungeons, visited, ans):
-
-    for i in range(len(dungeons)):
-        if visited[i] or k < dungeons[i][0]:
-            continue
-
-        visited[i] = 1
-        k -= dungeons[i][1]
-        if ans < sum(visited):
-            ans = sum(visited)
-        ans = bt(k, dungeons, visited, ans)
-        visited[i] = 0
-        k += dungeons[i][1]
-
-    return ans
-
+from itertools import permutations
 def solution(k, dungeons):
-    return bt(k, dungeons, [0 for _ in range(len(dungeons))], 0)
+    answer = 0
+    n = len(dungeons)
+    for order in permutations(range(n)):
+        #print(t)
+        cur = k
+        local_ans = 0
+        for t in order:
+            require, consum = dungeons[t]
+            if cur >= require:
+                cur -= consum
+                local_ans += 1
+        answer = max(answer, local_ans)
+
+
+    return answer
