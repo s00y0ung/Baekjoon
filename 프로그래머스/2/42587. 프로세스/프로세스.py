@@ -1,24 +1,23 @@
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
 def solution(priorities, location):
+    queue =  [(i,p) for i,p in enumerate(priorities)]
     answer = 0
-    que = [i for i in range(len(priorities))]
-    cnt = 0
-    while priorities:
-        m = max(priorities)
-        for i in range(len(priorities)):
-            if priorities[0] != m:
-                priorities.append(priorities[0])
-                que.append(que[0])
-                priorities.pop(0)
-                que.pop(0)
-            else:
-                if que[0] == location:
-                    cnt = 1
-                priorities.pop(0)
-                que.pop(0)
-                answer += 1
-                break
-
-        if cnt:
-            break
-
-    return answer
+    while True:
+        cur = queue.pop(0)
+        if any(cur[1] < q[1] for q in queue):
+            queue.append(cur)
+        else:
+            answer += 1
+            if cur[0] == location:
+                return answer
