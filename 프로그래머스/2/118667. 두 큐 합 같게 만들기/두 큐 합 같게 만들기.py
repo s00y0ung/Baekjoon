@@ -1,29 +1,15 @@
 def solution(queue1, queue2):
-    answer = 0
-    q = queue1 + queue2
-    total = (sum(queue1) + sum(queue2))
-    if total % 2 == 1:
-        return -1
-    
-    total = total // 2
-    s, e = 0, len(queue1) - 1
-    sm = sum(queue1)
-    
-    while s <= e:
-        if sm > total:
-            sm -= q[s]
-            s += 1
-        elif sm < total:
-            e += 1
-            if e >= len(q):
-                answer = -1
-                break
-            sm += q[e]
-        else:
-            break
-        answer += 1
-
-    if s > e:
-        answer = -1
-
+    indicator2=sum(queue1)-int(sum(queue1+queue2)/2)
+    answer=0
+    sub_list=(queue1+queue2+queue1)[::-1]
+    add_list=(queue2+queue1+queue2)[::-1]
+    while indicator2!=0:
+        try:
+            if indicator2>0:
+                indicator2-=sub_list.pop()
+            else:
+                indicator2+=add_list.pop()
+        except:
+            return -1
+        answer+=1
     return answer
