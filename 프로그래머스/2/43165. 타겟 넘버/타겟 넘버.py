@@ -1,16 +1,16 @@
-def bt(numbers, target, total, stack, start, answer):
-    a = total
-    for i in stack:
-        a = a - 2 * (numbers[i])
-    if a == target:
+answer = 0
+def DFS(idx, numbers, target, value):
+    global answer
+    N = len(numbers)
+    if(idx== N and target == value):
         answer += 1
+        return
+    if(idx == N):
+        return
 
-    for i in range(start, len(numbers)):
-        stack.append(i)
-        answer = bt(numbers, target, total, stack, i + 1, answer)
-        stack.pop(-1)
-    return answer
-
+    DFS(idx+1,numbers,target,value+numbers[idx])
+    DFS(idx+1,numbers,target,value-numbers[idx])
 def solution(numbers, target):
-    answer = bt(numbers, target, sum(numbers), [], 0, 0)
+    global answer
+    DFS(0,numbers,target,0)
     return answer
