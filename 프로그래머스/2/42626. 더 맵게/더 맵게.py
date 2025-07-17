@@ -5,10 +5,8 @@ def solution(scoville, K):
     heapq.heapify(scoville)
 
     while scoville[0] < K and len(scoville) > 1:
-        s1 = scoville[0]
-        heapq.heappop(scoville)
-        s2 = scoville[0]
-        heapq.heappop(scoville)
+        s1 = heapq.heappop(scoville)
+        s2 = heapq.heappop(scoville)
         
         heapq.heappush(scoville,s1+s2*2)
         answer += 1
