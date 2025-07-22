@@ -1,14 +1,20 @@
 def solution(board):
-    answer = 0
 
-    dp = [[0 for _ in range(len(board[0])+1)] for _ in range(len(board)+1)]
-    
-    for i in range(1, len(board)+1):
-        for j in range(1, len(board[0])+1):
-            if board[i-1][j-1] == 0:
-                dp[i][j] = 0
-            else:
-                dp[i][j] = min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])+1
-                if answer < dp[i][j]:
-                    answer = dp[i][j]
-    return answer **2
+    board_T = [list(x) for x in zip(*board)]
+    memory = max(max(board[0]), max(board_T[0]))
+
+    n_row = len(board)
+    n_col = len(board[0])
+
+
+    for col in range(1, n_col):
+        for row in range(1, n_row):
+            if board[row][col] == 1:
+                board[row][col] += min(
+                                       board[row-1][col],
+                                       board[row][col-1],
+                                       board[row-1][col-1]
+                                      )
+                if memory<board[row][col]:
+                    memory = board[row][col]
+    return memory**2
