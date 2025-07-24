@@ -1,13 +1,19 @@
 import sys
-input = sys.stdin.readline
 
-N = int(input())
-arr = list(map(int,input().split()))
-que = []
-ans = [-1 for _ in range(N)]
-for i in range(N):
-    while que and que[-1][1] < arr[i]:
-        ans[que[-1][0]] = arr[i]
-        que.pop()
-    que.append([i, arr[i]])
-print(*ans)
+def main():
+    N = int(sys.stdin.readline())
+    arr = list(map(int, sys.stdin.readline().split()))
+    NEG = [-1] * N
+    stack = []
+
+    stack.append(0)
+    for i in range(1, N):
+        while stack and arr[stack[-1]] < arr[i]:
+            NEG[stack.pop()] = arr[i]
+        stack.append(i)
+
+    print(' '.join(map(str, NEG)))
+
+
+if __name__ == '__main__':
+    main()
