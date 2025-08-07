@@ -1,21 +1,13 @@
+from itertools import combinations
 from collections import Counter
 
-def get_balance(a,b):
-    if a*2 == b*3: return 1
-    if a*2 == b*4: return 1
-    if a*3 == b*2: return 1
-    if a*3 == b*4: return 1
-    if a*4 == b*2: return 1
-    if a*4 == b*3: return 1
-    return 0
-
 def solution(weights):
-    answer = 0
-    count_w = list(Counter(weights).items())
-    for c in range(len(count_w)):
-        answer = answer + (count_w[c][1]*(count_w[c][1]-1)//2)
-        for i in range(c+1, len(count_w)):
-            b = get_balance(count_w[c][0], count_w[i][0])
-            answer += b*count_w[c][1]*count_w[i][1]
-    
-    return answer
+    cnt = 0
+    weights = Counter(weights)
+    for a, b in combinations(weights.keys(), 2): # 서로 다른 무게
+        if a*2 == b*3 or a*2 == b*4 or a*3 == b*4 or b*2 == a*3 or b*2 == a*4 or b*3 == a*4:
+            cnt += weights[a] * weights[b]
+    for v in weights.values(): # 같은 무게
+        if v > 1:
+            cnt += sum([i for i in range(1, v)])
+    return cnt
