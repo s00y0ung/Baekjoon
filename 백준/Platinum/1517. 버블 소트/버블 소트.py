@@ -15,13 +15,10 @@ def merge(left, right):
             j += 1
             swap = swap + len(left)-i
 
-    while i < len(left):
-        sorted_list.append(left[i])
-        i += 1
-    while j < len(right):
-        sorted_list.append(right[j])
-        j += 1
-
+    if i < len(left):
+        sorted_list.extend(left[i:])
+    else:
+        sorted_list.extend(right[j:])
     return sorted_list
 
 def merge_sort(arr):
@@ -29,12 +26,9 @@ def merge_sort(arr):
         return arr
 
     mid = len(arr) // 2
-    left = arr[:mid]
-    right = arr[mid:]
-
-    left_ = merge_sort(left)
-    right_ = merge_sort(right)
-    return merge(left_, right_)
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
 
 N = int(input())
 arr = list(map(int, sys.stdin.readline().split()))
