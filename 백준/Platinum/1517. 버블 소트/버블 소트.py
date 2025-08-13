@@ -1,36 +1,35 @@
 import sys
-swap = 0
+input=sys.stdin.readline
 
-def merge(left, right):
-    i,j = 0,0
-    sorted_list = []
-    global swap
-
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            sorted_list.append(left[i])
-            i += 1
+def merge(a,b):
+    global cnt
+    la,lb=len(a),len(b)
+    i,j=0,0
+    temp=[]
+    while i<la and j<lb:
+        if a[i]>b[j]:
+            temp.append(b[j])
+            j+=1
+            cnt+=la-i
         else:
-            sorted_list.append(right[j])
-            j += 1
-            swap = swap + len(left)-i
-
-    if i < len(left):
-        sorted_list.extend(left[i:])
+            temp.append(a[i])
+            i+=1
+    if i==la:
+        temp.extend(b[j:])
     else:
-        sorted_list.extend(right[j:])
-    return sorted_list
+        temp.extend(a[i:])
+    return temp
 
 def merge_sort(arr):
-    if len(arr) <= 1:
+    if len(arr)<=1:
         return arr
+    left=0
+    right=len(arr)-1
+    mid=(left+right)//2
+    return merge(merge_sort(arr[left:mid+1]),merge_sort(arr[mid+1:]))
 
-    mid = len(arr) // 2
-    left = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
-    return merge(left, right)
-
-N = int(input())
-arr = list(map(int, sys.stdin.readline().split()))
+n=int(input())
+cnt=0
+arr=list(map(int,input().split()))
 merge_sort(arr)
-print(swap)
+print(cnt)
