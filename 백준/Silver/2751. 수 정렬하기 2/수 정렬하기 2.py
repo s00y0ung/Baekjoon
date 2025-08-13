@@ -1,5 +1,6 @@
 import sys
 input = sys.stdin.readline
+print = sys.stdout.write
 
 def merge(left, right):
     i, j = 0,0
@@ -38,5 +39,4 @@ def merge_sort(arr):
 N = int(input())
 arr = [int(input()) for _ in range(N)]
 a_list = merge_sort(arr)
-for a in a_list:
-    print(a)
+print("\n".join(map(str,a_list)))
