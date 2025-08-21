@@ -1,13 +1,15 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(1000000)
 
 def check(visited, k, node):
+    que = [k]
 
-    for i in node[k]:
-        if visited[i] == 0:
-            visited[i] = 1
-            check(visited, i, node)
+    while que:
+        q = que.pop(0)
+        for i in node[q]:
+            if visited[i] == 0:
+                visited[i] = 1
+                que.append(i)
 
     return visited
 
