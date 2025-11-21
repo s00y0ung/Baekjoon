@@ -1,9 +1,11 @@
-n = int(input())
+input = int(input())
+square = 2
 
-if n == 1 or n == 2:
-    print(n)
-else:
-    k = 1
-    while 2**k < n:
-        k += 1
-    print(2**k - (2**k - n)*2)
+while True:
+    if (input == 1 or input == 2):
+        print(input)
+        break
+    square *= 2
+    if (square >= input):
+        print((input - (square // 2)) * 2)
+        break
