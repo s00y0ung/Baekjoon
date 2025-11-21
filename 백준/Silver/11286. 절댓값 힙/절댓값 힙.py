@@ -1,18 +1,26 @@
-#11286,1377
 import sys
+import heapq
 input = sys.stdin.readline
-from queue import PriorityQueue
-n = int(input())
-que = PriorityQueue()
-for i in range(n):
-    k = int(input())
-    if k == 0:
-        if que.qsize() == 0:
+
+N = int(input())
+m_heap = []
+p_heap = []
+for i in range(N):
+    num = int(input())
+    if num == 0:
+        if not m_heap and not p_heap:
             print(0)
-            continue
-        print(que.get()[1])
+        elif m_heap and not p_heap:
+            print(heapq.heappop(m_heap)*-1)
+        elif not m_heap and p_heap:
+            print(heapq.heappop(p_heap))
+        else:
+            if m_heap[0] <= p_heap[0]:
+                print(heapq.heappop(m_heap)*-1)
+            else:
+                print(heapq.heappop(p_heap))
     else:
-        priority = abs(k)*2
-        if k < 0:
-            priority -= 1
-        que.put((priority,k))
+        if num > 0:
+            heapq.heappush(p_heap, num)
+        else:
+            heapq.heappush(m_heap, -1*num)
