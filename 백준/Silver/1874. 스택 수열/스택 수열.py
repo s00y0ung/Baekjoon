@@ -1,26 +1,23 @@
 import sys
 input = sys.stdin.readline
-
-N = int(input())
-stack = []
-ans = []
-p = 0
-for i in range(1,N+1):
+def main():
     n = int(input())
+    stack = []
+    j = 1
+    ans = []
+    for i in range(n):
+        num = int(input())
+        if stack and stack[-1] > num:
+            ans = ['NO']
+            break
 
-    while p < n and p < N:
-        p += 1
-        stack.append(p)
-        ans.append('+')
-
-    if n == stack[-1]:
-        stack.pop()
+        while not stack or stack[-1] != num:
+            stack.append(j)
+            j += 1
+            ans.append('+')
+        stack.pop(-1)
         ans.append('-')
-    else:
-        ans.append('NO')
-        break
-        
-if ans[-1] == 'NO':
-    print("NO")
-else:
     print('\n'.join(ans))
+    
+if __name__ == '__main__':
+    main()
