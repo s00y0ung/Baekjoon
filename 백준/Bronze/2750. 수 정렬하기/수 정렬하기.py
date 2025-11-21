@@ -1,6 +1,6 @@
-n = int(input())
-arr = []
-for i in range(n):
-    arr.append(int(input()))
-arr.sort()
-print('\n'.join(map(str, arr)))
+N = int(input())
+a = []
+for i in range(N):
+    a.append(int(input()))
+a.sort()
+print('\n'.join(map(str,a)))
