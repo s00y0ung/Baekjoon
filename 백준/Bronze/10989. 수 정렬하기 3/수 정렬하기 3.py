@@ -1,16 +1,17 @@
 import sys
-input = sys.stdin.readline
 
 def main():
-    N = int(input())
-    arr = [0]*10001
-    for i in range(N):
-        a = int(input())
-        arr[a] += 1
-    
-    for i in range(10001):
-        for j in range(arr[i]):
-            print(i)
+    N = int(sys.stdin.readline())
+    arr = [0 for _ in range(10001)]
+    for _ in range(N):
+        arr[int(sys.stdin.readline())] += 1
+
+    for a in range(10001):
+        if arr[a] == 0:
+            continue
+        for j in range(arr[a]):
+            sys.stdout.write(str(a) + '\n')
+
 
 if __name__ == '__main__':
     main()
