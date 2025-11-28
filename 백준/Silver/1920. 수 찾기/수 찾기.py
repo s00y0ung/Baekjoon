@@ -1,30 +1,29 @@
-import sys
-input = sys.stdin.readline
+def binary_search(search):
+    global N_list, N
 
-N = int(input())
-n_list = list(map(int, input().split()))
-n_list.sort()
-
-M = int(input())
-m_list = list(map(int, input().split()))
-
-for m in m_list:
     left = 0
     right = N-1
-    flag = 1
-    
+
     while left <= right:
         mid = (left + right)//2
-        if n_list[mid] == m:
-            flag = 0
-            break
-
-        if n_list[mid] > m:
+        if N_list[mid] > search:
             right = mid-1
-        else:
+        elif N_list[mid] < search:
             left = mid+1
-            
-    if flag == 1:
-        print(0)
-    else:
-        print(1)
+        else:
+            return 1
+
+    return 0
+
+
+
+if __name__ == "__main__":
+    N = int(input())
+    N_list = list(map(int, input().split()))
+    N_list.sort()
+
+    M = int(input())
+    M_list = list(map(int, input().split()))
+
+    for m in M_list:
+        print(binary_search(m))
