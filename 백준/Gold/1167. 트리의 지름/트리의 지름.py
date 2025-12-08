@@ -1,38 +1,35 @@
 import sys
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
-def dfs(node, depth):
-    global tree, visited
+def bfs(tree,v):
 
-    for v, e in tree[node]:
-        if visited[v] == -1:
-            visited[v] = depth + e
-            dfs(v, depth + e)
-    return
+    distance = [-1]*len(tree)
+    que = [v]
+    distance[v] = 0
+    while que:
+        cur = que.pop()
+        for v,e in tree[cur]:
+            if distance[v] == -1:
+                distance[v] = distance[cur]+e
+                que.append(v)
+    m = max(distance)
+    return distance.index(m), m
 
-if __name__ == "__main__":
+
+def main():
     N = int(input())
     tree = [[] for _ in range(N+1)]
-    visited = [-1 for i in range(N+1)]
+    for i in range(1,N+1):
+        tmp = list(map(int, input().split()))
+        cnt = 1
+        while tmp[cnt] != -1:
+            tree[tmp[0]].append((tmp[cnt], tmp[cnt+1]))
+            cnt = cnt+2
 
-    for _ in range(N):
-        line = list(map(int, input().split()))
-        cnt_node = line[0]
+    v,e = bfs(tree,1)
+    v,e = bfs(tree,v)
+    print(e)
 
-        idx = 1
-        while line[idx] != -1 :
-            adj_node , adj_cost = line[idx], line[idx+1]
-            tree[cnt_node].append((adj_node, adj_cost))
-            idx += 2
 
-    visited[1] = 0
-    dfs(1,0)
-    max_distance = max(visited)
-    max_node = visited.index(max_distance)
-
-    visited = [-1 for i in range(N + 1)]
-    visited[max_node] = 0
-    dfs(max_node , 0)
-
-    print(max(visited))
+if __name__ == '__main__':
+    main()
