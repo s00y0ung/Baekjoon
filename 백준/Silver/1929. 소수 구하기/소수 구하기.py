@@ -1,18 +1,19 @@
-def solve():
-    M,N = map(int, input().split())
+import sys
+input = sys.stdin.readline
 
-    prime_list = [True] * (N+1)
-    prime_list[1] = False
+def main():
+    M, N = map(int, input().split())
 
-    for i in range(2,int(N**0.5)+1):
-        if prime_list[i]:
-            k = 2
-            while i*k <= N:
-                prime_list[i*k] = False
-                k += 1
+    prime = [1] * (N+1)
+    prime[0] = 0
+    prime[1] = 0
+    for i in range(2, N+1):
+        if prime[i] == 1:
+            for j in range(i+i,N+1,i):
+                prime[j] = 0
 
-    for i in range(M, N+1):
-        if prime_list[i]:
+    for i in range(M,N+1):
+        if prime[i] == 1:
             print(i)
-
-solve()
+if __name__ == '__main__':
+    main()
