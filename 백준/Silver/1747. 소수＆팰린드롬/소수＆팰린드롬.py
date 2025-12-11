@@ -1,21 +1,22 @@
-def solve():
+import sys
+input = sys.stdin.readline
+
+def main():
     N = int(input())
-    prime = [i for i in range(1003002)]
-    prime[0] = 0
-    prime[1] = 0
+    if N >= 100000:
+        print(1003001)
+    else:
+        prime = [1] * 100000
+        prime[1] = 0
+        for i in range(2,100000):
+            if prime[i] == 1:
+                for j in range(i+i,100000,i):
+                    prime[j] = 0
 
-    # 소수 구하기
-    for i in range(2,int(len(prime) ** 0.5)):
-        if prime[i] != 0:
-            for j in range(i+i, len(prime), i):
-                prime[j] = 0
-
-    # 팰린드롬 수
-    for i in range(N, len(prime)):
-        if prime[i] != 0:
-            s = str(i)
-            if s == s[::-1]:
-                print(s)
+        for i in range(N, 100000):
+            if prime[i] == 1 and str(i) == str(i)[::-1]:
+                print(i)
                 break
 
-solve()
+if __name__ == '__main__':
+    main()
