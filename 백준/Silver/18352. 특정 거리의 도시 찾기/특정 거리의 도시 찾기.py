@@ -1,40 +1,41 @@
 import sys
 input = sys.stdin.readline
 
-def bfs(x):
-    global visited, graph, K
-    que = [x]
-    visited[x] = 0
+def bfs(start, g, N, K):
+    visited = [-1] * (N+1)
+    visited[start] = 0
+    que = [start]
     depth = 0
-
-    while len(que) != 0:
-
-        for k in range(len(que)):
-            n = que.pop(0)
-            for i in graph[n]:
-                if visited[i] == -1:
-                    que.append(i)
-                    visited[i] = visited[n] + 1
-                    if visited[i] > depth:
-                        depth = visited[i]
-        if depth > K:
+    while que:
+        cur = que.pop(0)
+        for c in g[cur]:
+            if visited[c] == -1:
+                visited[c] = visited[cur]+1
+                que.append(c)
+                depth = visited[c]
+        if depth > K+1:
             break
-            
-    if K not in visited:
-        print(-1)
+
+    find = []
+    for v in range(N+1):
+        if visited[v] == K:
+            find.append(v)
+
+    if find:
+        find.sort()
+        for f in find:
+            print(f)
     else:
-        for i in range(len(visited)):
-            if visited[i] == K:
-                print(i)
-    return 0
+        print(-1)
 
+def main():
+    N, M, K, X = map(int, input().split())
+    g = [[] for _ in range(N+1)]
+    for i in range(M):
+        a,b = map(int, input().split())
+        g[a].append(b)
 
-N, M, K, X = map(int, input().split())
-graph = [[] for _ in range(N + 1)]
-visited = [-1] * (N + 1)
+    bfs(X,g,N,K)
 
-for i in range(M):
-    A, B = map(int, input().split())
-    graph[A].append(B)
-
-bfs(X)
+if __name__ == "__main__":
+    main()
