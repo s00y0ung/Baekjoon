@@ -1,40 +1,34 @@
-from collections import deque
 import sys
 input = sys.stdin.readline
 
-def topo_sort():
+def main():
+    N = int(input())
+
+    graph = [[] for _ in range(N+1)]
+    income = [0]*(N+1)
+    time = [0]*(N+1)
+    ans = [0]*(N+1)
+    que = []
+
+    for i in range(1,1+N):
+        tmp = input().split()
+        time[i] = int(tmp[0])
+        for j in tmp[1:-1]:
+            graph[int(j)].append(i)
+        income[i] = len(tmp[1:-1])
+        if income[i] == 0:
+            que.append(i)
+            ans[i] = time[i]
+
     while que:
-        cur = que.popleft()
-        t = 0
-        for b in build[cur][1:-1]:
-            t = max(t, time[b])
-        time[cur] = time[cur] + t
+        cur = que.pop(0)
+        for i in graph[cur]:
+            income[i] -= 1
+            ans[i] = max(ans[i], time[i]+ans[cur])
+            if income[i] == 0:
+                que.append(i)
 
-        for idx in graph[cur]:
-            indegree[idx] -= 1
-            if indegree[idx] == 0:
-                que.append(idx)
+    print('\n'.join(list(map(str,ans[1:]))))
 
-N = int(input())
-
-time = [0 for _ in range(N+1)]
-graph =[[] for _ in range(N+1)]
-indegree = [0 for _ in range(N+1)]
-build = [[] for _ in range(N+1)]
-que = deque()
-
-for i in range(1,1+N):
-    build[i] = list(map(int, input().split()))
-    time[i] = build[i][0]
-
-    for b in build[i][1:-1]:
-        graph[b].append(i)
-        indegree[i] += 1
-
-for k in range(1,1+N):
-    if indegree[k] == 0:
-        que.append(k)
-
-topo_sort()
-time.pop(0)
-print(*time, sep = '\n')
+if __name__ == "__main__":
+    main()
