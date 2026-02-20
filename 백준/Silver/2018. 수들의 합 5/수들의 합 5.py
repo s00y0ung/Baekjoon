@@ -1,22 +1,25 @@
-N = int(input())
+import sys
+input = sys.stdin.readline
 
-ans = 1
-p1,p2 = 1,2
-end = N //2
-total = p1+p2
-while p1 < p2 <= end+1:
-    if total == N:
-        ans += 1
-        p2 += 1
-        total = total - p1 + p2
-        p1+=1
+def main():
+    N = int(input())
+    ans = 1
+    total = 3
+    s,e = 1,2
+    if N == 1 or N == 2:
+        print(1)
+    else:
+        while s <= e <= (N // 2 + 1):
+            if total == N:
+                ans += 1
+                total -= s
+                s += 1
+            elif total > N:
+                total -= s
+                s += 1
+            elif total < N:
+                e += 1
+                total += e
 
-
-    elif total > N:
-        total -= p1
-        p1 += 1
-    else: # total < N:
-        p2 += 1
-        total += p2
-
-print(ans)
+        print(ans)
+main()
