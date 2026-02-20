@@ -1,18 +1,18 @@
 N = int(input())
 M = int(input())
-nums = list(map(int, input().split()))
-nums.sort()
+weapon = list(map(int, input().split()))
 
+weapon = sorted(weapon)
+s = 0
+e = len(weapon)-1
 ans = 0
-s,e = 0,N-1
 while s < e:
-    t = nums[s] + nums[e]
-    if t > M:
-        e -= 1
-    elif t < M:
-        s += 1
-    else:
+    if weapon[s]+weapon[e] == M:
         ans += 1
+        s += 1
         e -= 1
+    elif weapon[s] + weapon[e] > M:
+        e -= 1
+    else:
         s += 1
 print(ans)
