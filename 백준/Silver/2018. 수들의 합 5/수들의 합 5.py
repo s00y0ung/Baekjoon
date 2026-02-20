@@ -12,8 +12,8 @@ def main():
         while s <= e <= (N // 2 + 1):
             if total == N:
                 ans += 1
-                total -= s
-                s += 1
+                e += 1
+                total += e
             elif total > N:
                 total -= s
                 s += 1
