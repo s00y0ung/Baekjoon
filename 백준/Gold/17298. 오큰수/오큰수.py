@@ -1,19 +1,17 @@
 import sys
+input = sys.stdin.readline
 
 def main():
-    N = int(sys.stdin.readline())
-    arr = list(map(int, sys.stdin.readline().split()))
-    NEG = [-1] * N
-    stack = []
+    N = int(input())
+    num = list(map(int, input().split()))
+    stack = [0]
+    neg = [-1]*N
 
-    stack.append(0)
-    for i in range(1, N):
-        while stack and arr[stack[-1]] < arr[i]:
-            NEG[stack.pop()] = arr[i]
+    for i in range(1,N):
+        while stack and num[stack[-1]] < num[i]:
+            neg[stack.pop()] = num[i]
         stack.append(i)
-
-    print(' '.join(map(str, NEG)))
-
+    print(' '.join(map(str, neg)))
 
 if __name__ == '__main__':
     main()
