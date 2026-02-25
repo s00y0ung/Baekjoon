@@ -1,31 +1,32 @@
 import sys
+input = sys.stdin.readline
 
-def backTracking(i, node, visited, depth):
+def backTracking(cur,visited,connect,depth):
     if depth == 5:
         return 1
-
-    for k in node[i]:
-        if visited[k] == 0:
-            visited[k] = 1
-            if backTracking(k, node, visited, depth+1):
+    for i in connect[cur]:
+        if visited[i] == 0:
+            visited[i] = 1
+            if backTracking(i,visited,connect, depth+1):
                 return 1
-            visited[k] = 0
-    return 0
+            visited[i] = 0
 
-N,M = map(int, input().split())
-node = [[] for _ in range(N)]
-for k in range(M):
-    a, b = map(int, sys.stdin.readline().split())
-    node[a].append(b)
-    node[b].append(a)
+def main():
+    N,M = map(int, input().split())
+    g = [[] for _ in range(N)]
+    for _ in range(M):
+        a,b = map(int, input().split())
+        g[a].append(b)
+        g[b].append(a)
+    visited = [0 for _ in range(N)]
 
-visited = [0 for i in range(N)]
-for i in range(N):
-    visited[i] = 1
-    if backTracking(i, node, visited, 1):
-        print(1)
-        break
-    visited[i] = 0
-    if i == N-1:
-        print(0)
-
+    for i in range(N):
+        visited[i] = 1
+        if backTracking(i, visited, g, 1):
+            print(1)
+            return
+        visited[i] = 0
+    print(0)
+    return
+if __name__ == "__main__":
+    main()
