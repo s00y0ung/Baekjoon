@@ -1,42 +1,47 @@
 import sys
 input = sys.stdin.readline
 
-def main():
-    N, M, V = map(int, input().split())
-    graph = [[] for _ in range(N+1)]
-    for i in range(M):
-        a,b = map(int, input().split())
-        graph[b].append(a)
-        graph[a].append(b)
-
-    for i in range(N+1):
-        graph[i].sort()
+def dfs(g,N,V):
+    st = [V]
     visited = [0 for _ in range(N+1)]
-    dfs(graph, V, visited)
-    print()
-    visited = [0 for _ in range(N + 1)]
-    bfs(graph, V, visited)
+    ans = []
+    while st:
+        cur = st.pop()
+        if visited[cur] == 0:
+            visited[cur] = 1
+            ans.append(cur)
+            for v in g[cur]:
+                st.append(v)
+    print(*ans)
 
-def dfs(graph,V,visited):
-    print(V, end = ' ')
-    visited[V] = 1
-    for i in graph[V]:
-        if visited[i] == 0:
-            dfs(graph, i, visited)
-
-def bfs(graph, V, visited):
-
+def bfs(g,N,V):
     que = [V]
+    visited = [0 for _ in range(N+1)]
     visited[V] = 1
+    ans = []
+
     while que:
         cur = que.pop(0)
-        print(cur, end = ' ')
-
-        for i in graph[cur]:
+        ans.append(cur)
+        for i in g[cur]:
             if visited[i] == 0:
-                visited[i] = 1
                 que.append(i)
+                visited[i] = 1
+    print(*ans)
 
+def main():
+    N, M, V = map(int, input().split())
+    g = [[] for _ in range(N+1)]
+    for _ in range(M):
+        a,b = map(int, input().split())
+        g[a].append(b)
+        g[b].append(a)
+    for i in range(1,N+1):
+        g[i].sort(reverse=True)
+    dfs(g,N,V)
+    for i in range(1,N+1):
+        g[i].sort()
+    bfs(g,N,V)
 
 if __name__ == "__main__":
     main()
