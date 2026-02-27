@@ -1,19 +1,21 @@
-import sys, heapq
+import sys
+import heapq
 input = sys.stdin.readline
 
-N = int(input())
+def main():
+    N = int(input())
+    h = []
+    for _ in range(N):
+        h.append(int(input()))
+    heapq.heapify(h)
 
-cardHeap = []
-for i in range(N):
-    cardHeap.append(int(input()))
-heapq.heapify(cardHeap)
+    ans = 0
+    while len(h) > 1:
+        a = heapq.heappop(h)
+        b = heapq.heappop(h)
+        ans = (ans+a+b)
+        heapq.heappush(h,a+b)
+    print(ans)
 
-cnt = 0
-while len(cardHeap) > 1:
-    c1 = heapq.heappop(cardHeap)
-    c2 = heapq.heappop(cardHeap)
-
-    cnt += c1+c2
-    heapq.heappush(cardHeap,c1+c2)
-
-print(cnt)
+if __name__ == "__main__":
+    main()
