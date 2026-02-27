@@ -3,18 +3,18 @@ input = sys.stdin.readline
 
 def main():
     N = int(input())
-    conference = []
+    time = []
     for _ in range(N):
-        start, end = map(int, input().split())
-        conference.append((start, end))
-    conference.sort(key = lambda x : (x[1],x[0]))
+        time.append(list(map(int, input().split())))
+    time = sorted(time, key = lambda x : (x[1],x[0]))
 
-    cnt = 1
-    end_t = conference[0][1]
-    for i in range(1,N):
-        if end_t <= conference[i][0]:
-            cnt += 1
-            end_t = conference[i][1]
-    print(cnt)
-if __name__ == '__main__':
+    ans = 0
+    p_end = 0
+    for start, end in time:
+        if start >= p_end:
+            ans += 1
+            p_end = end
+    print(ans)
+
+if __name__ == "__main__":
     main()
