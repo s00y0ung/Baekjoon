@@ -10,10 +10,11 @@ def main():
         if prime[i] == 1:
             for j in range(i+i,N+1,i):
                 prime[j] = 0
-
+    ans = []
     for i in range(M, N+1):
         if prime[i]:
-            print(i)
+            ans.append(i)
+    print('\n'.join(map(str, ans)))
 
 if __name__ == "__main__":
     main()
