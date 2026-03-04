@@ -1,22 +1,22 @@
-def solve():
-    A, B = map(int, input().split())
+import sys
+input = sys.stdin.readline
 
-    prime = [True] * (int(B ** 0.5)+1)
-    prime[1] = False
-    almost_prime_cnt = 0
+def main():
+    a,b = map(int, input().split())
 
-    for i in range(2, int(B ** 0.5)+1):
-        if prime[i] == 0:
-            continue
-        for j in range(i+i, int(B**0.5)+1, i):
-            prime[j] = False
+    prime = [1]*(int(b**0.5)+1)
+    prime[1] = 0
+    ans = 0
+    for i in range(2, int(b**0.5)+1):
+        if prime[i] == 1:
+            for j in range(i+i, int(b**0.5)+1, i):
+                prime[j] = 0
 
-        tmp = i*i
-        while tmp <= B:
-            if A <= tmp:
-                almost_prime_cnt += 1
-            tmp = tmp * i
-
-    print(almost_prime_cnt)
-
-solve()
+            tmp = i*i
+            while  tmp <= b:
+                if a <= tmp:
+                    ans += 1
+                tmp *= i
+    print(ans)
+if __name__ == "__main__":
+    main()
