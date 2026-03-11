@@ -1,9 +1,11 @@
-def solve():
-    A, B = map(int, input().split())
+import sys
+input = sys.stdin.readline
 
-    while B != 0:
-        A, B = B, A%B
+def main():
+    a,b = map(int, input().split())
+    while b > 0:
+        a,b = b, a%b
+    print('1'*a)
 
-    print('1'*A)
-
-solve()
+if __name__ == '__main__':
+    main()
