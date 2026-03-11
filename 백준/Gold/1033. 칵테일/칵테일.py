@@ -1,38 +1,48 @@
-def get_gcd(a, b):
-    while b != 0:
-        a, b = b, a % b
+import sys
+import math
+input = sys.stdin.readline
 
+def bfs(n,d,tmp,g, arr):
+    visited = [0]*n
+    visited[d] = 1
+    que = []
+    for q in g[d]:
+        que.append(q)
+
+    while que:
+        cur = que.pop(0)
+        if visited[cur] == 0:
+            arr[cur] = arr[cur]*tmp // arr[d]
+            visited[cur] = 1
+            for k in g[cur]:
+                que.append(k)
+    arr[d] = tmp
+    return arr
+
+def gcd_check(a,b):
+    while b > 0:
+        a,b = b,a%b
     return a
 
-def dfs(n, ingre, visited):
+def main():
+    n = int(input())
+    arr = [1]*n
+    g = [set() for _ in range(n)]
 
-    for idx in range(len(ingre[n])):
-        if ingre[n][idx] != 0 and visited[idx] == 0:
-            visited[idx] = visited[n] * ingre[n][idx][1] // ingre[n][idx][0]
-            dfs(idx, ingre, visited)
-
-
-def solve():
-    N = int(input())
-    ingre = [[0 for j in range(N)] for i in range(N)]
-    visited = [0 for i in range(N)]
-    lcm = 1
-
-    for i in range(N-1):
+    for _ in range(n-1):
         a,b,p,q = map(int, input().split())
+        tmp = arr[a]*arr[b]
 
-        ingre[a][b] = [p,q]
-        ingre[b][a] = [q,p]
+        gcd = gcd_check(p,q)
+        p,q = p//gcd, q//gcd
 
-        lcm *= (p * q)
+        arr = bfs(n,a,tmp*p,g,arr)
+        arr = bfs(n,b,tmp*q,g,arr)
+        g[a].add(b)
+        g[b].add(a)
+    gcd = math.gcd(*arr)
+    for i in arr:
+        print(i//gcd, end = ' ')
 
-    visited[0] = lcm
-    dfs(0, ingre, visited)
-    
-    l = visited[0]
-    for i in range(len(visited)):
-        l = get_gcd(l, visited[i])
-    for v in visited:
-        print(v//l,end = ' ')
-    print()
-solve()
+if __name__ == '__main__':
+    main()
