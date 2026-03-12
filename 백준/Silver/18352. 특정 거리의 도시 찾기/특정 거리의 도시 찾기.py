@@ -1,41 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-def bfs(start, g, N, K):
-    visited = [-1] * (N+1)
-    visited[start] = 0
-    que = [start]
-    depth = 0
-    while que:
-        cur = que.pop(0)
-        for c in g[cur]:
-            if visited[c] == -1:
-                visited[c] = visited[cur]+1
-                que.append(c)
-                depth = visited[c]
-        if depth > K+1:
-            break
-
-    find = []
-    for v in range(N+1):
-        if visited[v] == K:
-            find.append(v)
-
-    if find:
-        find.sort()
-        for f in find:
-            print(f)
-    else:
-        print(-1)
-
 def main():
-    N, M, K, X = map(int, input().split())
-    g = [[] for _ in range(N+1)]
-    for i in range(M):
+    n,m,k,x = map(int, input().split())
+    g = [[] for _ in range(n+1)]
+    for _ in range(m):
         a,b = map(int, input().split())
         g[a].append(b)
+    visited = [-1]*(n+1)
 
-    bfs(X,g,N,K)
-
-if __name__ == "__main__":
+    que = [x]
+    visited[x] = 0
+    while que:
+        cur = que.pop(0)
+        for i in g[cur]:
+            if visited[i] == -1:
+                visited[i] = visited[cur]+1
+                que.append(i)
+    ans = []
+    for v in range(1,n+1):
+        if visited[v] == k:
+            ans.append(str(v))
+    if ans:
+        print('\n'.join(ans))
+    else:
+        print(-1)
+if __name__ == '__main__':
     main()
