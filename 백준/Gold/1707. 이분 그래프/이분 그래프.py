@@ -1,39 +1,35 @@
 import sys
 input = sys.stdin.readline
-def bfs(x, visited, graph):
-    visited[x] = 1
-    que = [x]
 
-    while que:
-        n = que.pop(0)
-        for node in graph[n]:
-            if visited[node] == 0:
-                que.append(node)
-                visited[node] = visited[n] * -1
-            elif visited[node] == visited[n]:
-                return -1
+def main():
+    n,e = map(int, input().split())
+    g = [[] for _ in range(n+1)]
+    for _ in range(e):
+        a,b = map(int, input().split())
+        g[a].append(b)
+        g[b].append(a)
 
-    return 1
+    visited = [0]*(n+1)
+    ans = 'YES'
+    for k in range(1, n+1):
+        if visited[k] == 0:
+            que = [k]
+            visited[k] = 1
+            while que:
+                cur = que.pop(0)
+                for i in g[cur]:
+                    if visited[i] == 0:
+                        visited[i] = visited[cur]*-1
+                        que.append(i)
+                    elif visited[i] == visited[cur]:
+                        que = []
+                        ans = 'NO'
+                        break
+        if ans == 'NO':
+            break
+    print(ans)
 
-
-def solve():
-    V, E = map(int, input().split())
-    graph = [[] for _ in range(V+1)]
-    visited = [0] * (V+1)
-
-    for e in range(E):
-        v1,v2 = map(int, input().split())
-        graph[v1].append(v2)
-        graph[v2].append(v1)
-
-    for i in range(1,V+1):
-        if visited[i] == 0:
-            if bfs(i, visited, graph) == -1:
-                print("NO")
-                return
-    print("YES")
-
-
-K = int(input())
-for _ in range(K):
-    solve()
+if __name__ == '__main__':
+    K = int(input())
+    for _ in range(K):
+        main()
