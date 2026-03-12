@@ -17,6 +17,8 @@ def main():
             if visited[i] == -1:
                 visited[i] = visited[cur]+1
                 que.append(i)
+        if visited[cur] > k+1:
+            break
     ans = []
     for v in range(1,n+1):
         if visited[v] == k:
