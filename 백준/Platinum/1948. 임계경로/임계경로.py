@@ -1,49 +1,48 @@
 import sys
-from collections import deque
+input = sys.stdin.readline
 
-n = int(sys.stdin.readline())
-m = int(sys.stdin.readline())
+def main():
+    n = int(input())
+    m = int(input())
+    g = [[] for _ in range(n+1)]
+    income = [0 for _ in range(n+1)]
 
-graph = list([] for _ in range(n + 1))
-reverseGraph = list([] for _ in range(n + 1))
-indegree = [0] * (n + 1)
+    for _ in range(m):
+        u,v,w = map(int, input().split())
+        g[u].append([v,w])
+        income[v] += 1
 
-for _ in range(m):
-    start, end, time = map(int, sys.stdin.readline().split())
-    graph[start].append([end, time])
-    reverseGraph[end].append([start, time])
-    indegree[end] += 1
+    s,e = map(int, input().split())
+    que = [s]
+    length = [0 for _ in range(n+1)]
+    m_node = [[] for _ in range(n+1)]
+    while que:
+        cur = que.pop(0)
+        for i,w in g[cur]:
+            income[i] -= 1
+            if length[i] < length[cur]+w:
+                m_node[i] = [cur]
+                length[i] = length[cur]+w
+            elif length[i] == length[cur]+w:
+                m_node[i].append(cur)
 
-startCity, endCity = map(int, sys.stdin.readline().split())
+            if income[i] == 0:
+                que.append(i)
+    print(length[e]) #최대거리
 
-queue = deque()
-queue.append(startCity)
+    que = m_node[e]
+    visited = [0 for _ in range(n+1)]
+    ans = len(m_node[e])
+    while que:
+        cur = que.pop(0)
+        if visited[cur] == 0:
+            visited[cur] = 1
+            ans += len(m_node[cur])
+            for k in m_node[cur]:
+                if visited[k] == 0:
+                    que.append(k)
+    print(ans) #색칠 도로의 수
 
-result = [0] * (n + 1)
 
-while (queue):
-    now = queue.popleft()
-    for next in graph[now]:
-        indegree[next[0]] -= 1
-        result[next[0]] = max(result[next[0]], result[now] + next[1])
-        if (indegree[next[0]] == 0):
-            queue.append(next[0])
-
-roadCount = 0
-visited = [True] * (n + 1)
-
-queue.clear()
-queue.append(endCity)
-visited[endCity] = False
-
-while (queue):
-    now = queue.popleft()
-    for next in reverseGraph[now]:
-        if (result[next[0]] + next[1] == result[now]):
-            roadCount += 1
-            if (visited[next[0]]):
-                visited[next[0]] = False
-                queue.append(next[0])
-
-print(result[endCity])
-print(roadCount)
+if __name__ == '__main__':
+    main()
