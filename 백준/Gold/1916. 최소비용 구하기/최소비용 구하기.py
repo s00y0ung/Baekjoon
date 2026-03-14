@@ -2,33 +2,31 @@ import sys
 import heapq
 input = sys.stdin.readline
 
-def dijkstra(start):
-    distance[start] = 0
+def main():
+    n = int(input())
+    m = int(input())
+    g = [[] for _ in range(n+1)]
+    for _ in range(m):
+        u,v,w = map(int, input().split())
+        g[u].append([v,w])
+    s,e = map(int, input().split())
 
-    q = []
-    heapq.heappush(q, (0, start))
-    while q:
-        dist, cur = heapq.heappop(q)
-
+    heap = [(0,s)]
+    distance = [float('inf')]*(n+1)
+    distance[s] = 0
+    while heap:
+        dist, cur = heapq.heappop(heap)
         if distance[cur] < dist:
-            if end == cur:
+            if e == cur:
                 break
             continue
 
-        for next in graph[cur]:
-            if distance[next[0]] > dist + next[1]:
-                distance[next[0]] = dist + next[1]
-                heapq.heappush(q, (dist + next[1], next[0]))
+        for i,w in g[cur]:
+            if distance[i] > dist+w:
+                distance[i] = dist+w
+                heapq.heappush(heap,(dist+w, i))
+    print(distance[e])
 
-N = int(input())
-M = int(input())
 
-graph = [[]for _ in range(N+1)]
-distance = [1000000000] * (N+1)
-for _ in range(M):
-    u, v, w = map(int, input().split())
-    graph[u].append((v,w))
-start, end = map(int, input().split())
-
-dijkstra(start)
-print(distance[end])
+if __name__ == '__main__':
+    main()
