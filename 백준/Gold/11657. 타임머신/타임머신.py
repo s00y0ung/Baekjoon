@@ -1,36 +1,35 @@
 import sys
 input = sys.stdin.readline
 
-def bf(start):
+INF = int(1e9)
+
+def bellman_ford(start, g, distance, n, m):
     distance[start] = 0
 
-    for i in range(N):
-        for j in range(1, N+1):
-
-            if distance[j] == 1e9:
-                continue
-
-            for u,w in graph[j]:
-                if distance[u] > distance[j] + w:
-                    distance[u] = distance[j]+w
-                    if i == N-1:
-                        return True
+    for i in range(n):
+        for j in range(m):
+            cur = g[j][0]
+            next = g[j][1]
+            weight = g[j][2]
+            if distance[cur] != INF and distance[next] > distance[cur]+weight:
+                distance[next] = distance[cur]+weight
+                if i == n-1:
+                    return True
     return False
 
+def main():
+    n,m = map(int, input().split())
+    g = []
+    distance = [INF]*(n+1)
+    for _ in range(m):
+        a,b,c = map(int, input().split())
+        g.append((a,b,c))
 
-N, M = map(int,input().split())
-graph =[[] for _ in range(N+1)]
-distance = [1e9 for _ in range(N+1)]
+    if bellman_ford(1,g,distance,n,m):
+        print(-1)
+    else:
+        distance = [-1 if x == INF else x for x in distance]
+        print('\n'.join(map(str, distance[2:])))
 
-for _ in range(M):
-    s,e,w = map(int, input().split())
-    graph[s].append((e,w))
-
-if bf(1):
-    print(-1)
-else:
-    for idx in distance[2:]:
-        if idx != 1e9:
-            print(idx)
-        else:
-            print(-1)
+if __name__ == '__main__':
+    main()
