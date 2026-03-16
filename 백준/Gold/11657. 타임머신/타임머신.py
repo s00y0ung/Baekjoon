@@ -28,8 +28,11 @@ def main():
     if bellman_ford(1,g,distance,n,m):
         print(-1)
     else:
-        distance = [-1 if x == INF else x for x in distance]
-        print('\n'.join(map(str, distance[2:])))
+        for d in distance[2:]:
+            if d == INF:
+                print(-1)
+            else:
+                print(d)
 
 if __name__ == '__main__':
     main()
