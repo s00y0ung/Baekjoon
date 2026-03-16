@@ -1,24 +1,23 @@
 import sys
 input = sys.stdin.readline
+INF = int(1e9)
+def main():
+    n = int(input())
+    m = int(input())
+    distance = [[INF for _ in range(n+1)] for _ in range(n+1)]
+    for _ in range(m):
+        a,b,c = map(int, input().split())
+        distance[a][b] = min(c, distance[a][b])
+    for i in range(1,n+1):
+        distance[i][i] = 0
 
-N = int(input())
-M = int(input())
-INF = 1e9
-graph =[[INF] * (N+1) for _ in range(N+1)]
-for i in range(N+1):
-    graph[i][i] = 0
-for _ in range(M):
-    a,b,c = map(int, input().split())
-    if graph[a][b] > c:
-        graph[a][b] = c
+    for k in range(1, n+1):
+        for i in range(1, n+1):
+            for j in range(1, n+1):
+                if distance[i][j] > distance[i][k] + distance[k][j]:
+                    distance[i][j] = distance[i][k] + distance[k][j]
+    for dist in distance[1:]:
+        print(*[0 if dist[x] == INF else dist[x] for x in range(1,n+1)])
 
-for k in range(1,N+1):
-    for i in range(1, N+1):
-        if graph[i][k] != 1e9:
-            for j in range(1, N+1):
-                if graph[i][j] > graph[i][k] + graph[k][j]:
-                    graph[i][j] = graph[i][k] + graph[k][j]
-
-
-for b in graph[1:]:
-    print(*[b[i] if b[i] != INF else 0 for i in range(1,1+N)])
+if __name__ == '__main__':
+    main()
