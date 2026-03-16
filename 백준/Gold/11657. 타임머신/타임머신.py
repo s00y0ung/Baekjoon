@@ -9,9 +9,12 @@ def bellman_ford(start, g, distance, n, m):
     for i in range(n):
         for j in range(m):
             cur = g[j][0]
+            if distance[cur] == INF:
+                continue
+            
             next = g[j][1]
             weight = g[j][2]
-            if distance[cur] != INF and distance[next] > distance[cur]+weight:
+            if distance[next] > distance[cur]+weight:
                 distance[next] = distance[cur]+weight
                 if i == n-1:
                     return True
