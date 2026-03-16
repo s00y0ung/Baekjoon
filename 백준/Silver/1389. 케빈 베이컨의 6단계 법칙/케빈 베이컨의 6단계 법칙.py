@@ -1,33 +1,25 @@
 import sys
 input = sys.stdin.readline
 
-def bfs(start):
-    q = [start]
-    visited = [0 for _ in range(N+1)]
-    while q:
+def main():
+    n,m = map(int, input().split())
+    distance = [[1000000 for _ in range(n+1)] for _ in range(n+1)]
+    for _ in range(m):
+        a,b = map(int, input().split())
+        distance[a][b] = 1
+        distance[b][a] = 1
 
-        for _ in range(len(q)):
-            n = q.pop(0)
-            for idx in graph[n]:
-                if visited[idx] == 0:
-                    visited[idx] = visited[n]+1
-                    q.append(idx)
 
-    return sum(visited) - visited[start]
+    for k in range(1,n+1):
+        for i in range(1, n+1):
+            for j in range(1, n+1):
+                if distance[i][j] > distance[i][k] + distance[k][j]:
+                    distance[i][j] = distance[i][k]+distance[k][j]
 
-N, M = map(int, input().split())
-graph = [[] for _ in range(N+1)]
-for _ in range(M):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+    k_dist = [0 for _ in range(n+1)]
+    for d in range(1,n+1):
+        k_dist[d] = sum(distance[d][1:]) - distance[d][d]
+    print(k_dist.index(min(k_dist[1:])))
 
-min_value = 1e9
-min_idx = -1
-for i in range(1,1+N):
-    r = bfs(i)
-    if min_value > r:
-        min_value = r
-        min_idx = i
-
-print(min_idx)
+if __name__ == '__main__':
+    main()
