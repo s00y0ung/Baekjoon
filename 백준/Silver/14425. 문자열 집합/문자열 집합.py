@@ -1,15 +1,18 @@
 import sys
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
-N_list = set()
-for _ in range(N):
-    N_list.add(input().rstrip())
+def main():
+    n,m = map(int, input().split())
+    s = set()
+    ans = 0
+    for _ in range(n):
+        s.add(input().strip())
 
-cnt = 0
-for _ in range(M):
-    m_str = input().rstrip()
-    if m_str in N_list:
-        cnt += 1
+    for _ in range(m):
+        tmp = input().strip()
+        if tmp in s:
+            ans += 1
+    print(ans)
 
-print(cnt)
+if __name__ == '__main__':
+    main()
