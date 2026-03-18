@@ -1,22 +1,23 @@
 import sys
 input = sys.stdin.readline
-sys.setrecursionlimit(1000000)
 
-def dfs(start):
-    for n in graph[start]:
-        if parent[n] != -1:
-            continue
-        parent[n] = start
-        dfs(n)
+def main():
+    n = int(input())
+    tree = [[] for _ in range(n+1)]
+    for _ in range(n-1):
+        a,b = map(int, input().split())
+        tree[a].append(b)
+        tree[b].append(a)
 
-N = int(input())
-graph =[[] for _ in range(N+1)]
-parent = [-1] * (N+1)
-for _ in range(N-1):
-    a,b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+    visited = [-1]*(n+1)
+    que = [1]
+    while que:
+        cur = que.pop(0)
+        for i in tree[cur]:
+            if visited[i] == -1:
+                visited[i] = cur
+                que.append(i)
+    print('\n'.join(map(str,visited[2:])))
 
-dfs(1)
-for idx in parent[2:]:
-    print(idx)
+if __name__ == '__main__':
+    main()
