@@ -1,37 +1,34 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
 
-def backTracking(root):
-    global cnt
-    if root == deleteN:
+def main():
+    n = int(input())
+    parent = list(map(int, input().split()))
+    root = parent.index(-1)
+    delete = int(input())
+
+    if root == delete:
+        print(0)
         return
-    if len(graph[root]) == 0:
-        cnt += 1
-        return
-    for n in graph[root]:
-        if visited[n] == 0:
-            visited[n] = 1
-            backTracking(n)
 
+    tree = [[] for _ in range(n)]
+    for i in range(n):
+        if parent[i] != -1 and i != delete:
+            tree[parent[i]].append(i)
 
-N = int(input())
-graph = [[] for i in range(N)]
-parent = list(map(int, input().split()))
-visited = [0 for i in range(N)]
+    que = deque([root])
+    visited = [-1]*n
+    ans = 0
+    while que:
+        cur = que.popleft()
+        if len(tree[cur]) == 0:
+            ans += 1
+        for i in tree[cur]:
+            if i != delete and visited[i] == -1:
+                que.append(i)
+                visited[i] = cur
+    print(ans)
 
-deleteN = int(input())
-
-root = []
-cnt = 0
-for idx in range(N):
-    if parent[idx] == -1:
-        root.append(idx)
-        continue
-    if deleteN == idx:
-        continue
-    p = parent[idx]
-    graph[p].append(idx)
-
-for r in root:
-    backTracking(r)
-print(cnt)
+if __name__ == '__main__':
+    main()
