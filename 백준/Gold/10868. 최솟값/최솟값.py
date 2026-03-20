@@ -1,37 +1,29 @@
 import sys
-from math import ceil, log
+import math
 input = sys.stdin.readline
+INF = int(1e9)
 
-def tree_init(l,r,node):
-    if l == r:
-        tree[node] = n_list[l]
-        return
+def main():
+    n,m = map(int, input().split())
+    tree_n = math.ceil(math.log(n,2))
+    tree = [INF for _ in range(2**(tree_n+1))]
+    for i in range(2**tree_n, 2**tree_n+n):
+        tree[i] = int(input())
+    for i in range(2**tree_n-1,0,-1):
+        tree[i] = min(tree[2*i],tree[2*i+1])
 
-    mid = (l + r) // 2
-    tree_init(l, mid, node*2)
-    tree_init(mid+1, r, node*2 + 1)
-    tree[node] = min( tree[node*2] , tree[node*2+1])
+    for _ in range(m):
+        a,b = map(int, input().split())
+        a,b = 2**tree_n+a-1, 2**tree_n+b-1
+        tmp = INF
+        while a <= b:
+            if a % 2 == 1:
+                tmp = min(tmp, tree[a])
+            if b % 2 == 0:
+                tmp = min(tmp, tree[b])
+            a = (a+1)//2
+            b = (b-1)//2
+        print(tmp)
 
-def get_min(l,r,node, left,right):
-    if r < left or right < l:
-        return 1000000000
-    if left <= l and r <= right:
-        return tree[node]
-    mid = (l+r) // 2
-    m1 = get_min(l, mid, node*2, left, right)
-    m2 = get_min(mid+1, r, node*2+1, left, right)
-    return min(m1 , m2)
-
-N, M = map(int, input().split())
-
-height = ceil(log(N,2) + 1)
-tree = [1000000000] * (2**height)
-
-n_list = []
-for _ in range(N):
-    n_list.append(int(input()))
-tree_init(0, N-1, 1)
-
-for _ in range(M):
-    a, b = map(int, input().split())
-    print(get_min(0,N-1,1,a-1,b-1))
+if __name__ == '__main__':
+    main()
