@@ -1,74 +1,35 @@
-import math
 import sys
+import math
+input = sys.stdin.readline
 
-sys.setrecursionlimit(10 ** 8)  # pypy 제출시 삭제!
-input = lambda: sys.stdin.readline().rstrip()
-# in_range = lambda y,x: 0<=y<n and 0<=x<m
-MOD = 1000000007
+def main():
+    n,m,k = map(int, input().split())
+    tree_n = math.ceil(math.log(n,2))
+    tree = [1 for _ in range(2**(tree_n+1))]
+    for i in range(2**tree_n, 2**tree_n+n):
+        tree[i] = int(input())
+    for i in range(2**tree_n-1,0,-1):
+        tree[i] = tree[2*i]*tree[2*i+1] % 1000000007
 
-n, m, k = map(int, input().split())
-arr = [int(input()) for _ in range(n)]
+    for _ in range(m+k):
+        a,b,c = map(int, input().split())
+        if a == 1:
+            b = 2 ** tree_n + b - 1
+            tree[b] = c
+            while b//2 > 0:
+                b = b//2
+                tree[b] = tree[b*2] * tree[b*2+1] % 1000000007
+        elif a == 2:
+            b,c = 2**tree_n+b-1, 2**tree_n+c-1
+            tmp = 1
+            while b <= c:
+                if b%2 == 1:
+                    tmp = tree[b] * tmp % 1000000007
+                if c%2 == 0:
+                    tmp = tree[c] * tmp % 1000000007
+                b = (b+1)//2
+                c = (c-1)//2
+            print(tmp)
 
-b = math.ceil(math.log2(n)) + 1
-node_n = 1 << b
-seg = [0 for _ in range(node_n)]
-
-
-def make_seg(idx, s, e):
-    if s == e:
-        seg[idx] = arr[s]
-        return seg[idx]
-
-    mid = (s + e) // 2
-
-    l = make_seg(idx * 2, s, mid)
-    r = make_seg(idx * 2 + 1, mid + 1, e)
-    seg[idx] = (l * r) % MOD
-
-    return seg[idx]
-
-
-def change(idx, s, e):
-    if b - 1 < s or e < b - 1:  # 범위 밖
-        return seg[idx]
-
-    if s == e:
-        seg[idx] = new
-        return new
-
-
-    mid = (s + e) // 2
-
-    l = change(idx * 2, s, mid)
-    r = change(idx * 2 + 1, mid + 1, e)
-    seg[idx] = (l * r) % MOD
-    return seg[idx]
-
-
-def get(idx, s, e):
-    # 탐색 영역 : s~e
-    if to < s or e < frm:  # 범위 밖
-        return 1
-
-    mid = (s + e) // 2
-    if frm <= s and e <= to:  # 탐색 영역이 b~c 완전히 안에 있음
-        return seg[idx]
-
-    else:  # 탐색 영역이 더 큰 경우나 범위 걸친 경우
-        l = get(idx * 2, s, mid)
-        r = get(idx * 2 + 1, mid + 1, e)
-        return (l * r) % MOD
-
-
-make_seg(1, 0, len(arr) - 1)
-
-
-for _ in range(m + k):
-    a, b, c = map(int, input().split())
-    if a == 1:
-        cur = arr[b - 1]
-        new = c
-        change(1, 0, len(arr) - 1)
-    else:
-        frm, to = b - 1, c - 1
-        print(get(1, 0, len(arr) - 1) % MOD)
+if __name__ == '__main__':
+    main()
