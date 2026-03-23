@@ -1,11 +1,10 @@
 import sys
+import math
 input = sys.stdin.readline
 
-def factorial(a):
-    ans = 1
-    for i in range(1,a+1):
-        ans *= i
-    return ans
+def main():
+    n,k = map(int, input().split())
+    print(math.factorial(n)//(math.factorial(k) * math.factorial(n-k)))
 
-N, K = map(int, input().split())
-print(factorial(N) // (factorial(K) * factorial(N-K)))
+if __name__ == '__main__':
+    main()
