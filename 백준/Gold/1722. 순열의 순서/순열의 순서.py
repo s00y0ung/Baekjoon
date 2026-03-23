@@ -1,43 +1,30 @@
 import sys
+import math
 input = sys.stdin.readline
 
-def get_p(n, n_list, total):
+def main():
+    n = int(input())
+    t = list(map(int, input().split()))
+    a = [math.factorial(i) for i in range(n - 1, 0, -1)] + [0]
+    num_list = [i for i in range(1, n + 1)]
 
-    s = len(n_list)
+    if t[0] == 1:
+        k = t[1]-1
+        ans = []
+        for i in range(n-1):
+            q,r = k // a[i], k%a[i]
+            ans.append(num_list[q])
+            num_list.pop(q)
+            k = r
+        print(*(ans + num_list))
+    else:
+        p = t[1:]
+        ans = 1
+        for i in range(n):
+            idx = num_list.index(p[i])
+            ans += idx*a[i]
+            num_list.pop(idx)
+        print(ans)
 
-    for _ in range(N-1):
-        total = total // s
-        quo = n // total
-        rem = n % total
-        print(n_list[quo], end = " ")
-        n_list.pop(quo)
-
-        s -= 1
-        n = rem
-    print(n_list[0])
-
-def get_o(k_list, total):
-    ans = 0
-    s = len(k_list)
-
-    for idx in k_list[:-1]:
-        total = total // s
-        s = s-1
-        ans = ans + total * n_list.index(idx)
-        n_list.remove(idx)
-
-    print(ans+1)
-
-
-N = int(input())
-n_list = [i for i in range(1,N+1)]
-K_list = list(map(int, input().split()))
-
-total = 1
-for idx in range(1, N+1):
-    total = total * idx
-
-if K_list[0] == 1:
-    get_p(K_list[1]-1, n_list, total)
-else: # K[0] == 2
-    get_o(K_list[1:], total)
+if __name__ == '__main__':
+    main()
