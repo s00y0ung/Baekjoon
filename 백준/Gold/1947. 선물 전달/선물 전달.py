@@ -1,9 +1,12 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
-res = [0,0,1]
+def main():
+    n = int(input())
+    d = [0,0,1]
+    for i in range(3,n+1):
+        d.append((i-1)*(d[i-1]+d[i-2])%1000000000)
+    print(d[n])
 
-for i in range(3, N+1):
-    res.append(((i-1) * (res[i-1] + res[i-2])) % 1000000000)
-print(res[N])
+if __name__ == '__main__':
+    main()
