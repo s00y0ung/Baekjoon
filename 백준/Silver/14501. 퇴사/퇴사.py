@@ -1,14 +1,20 @@
-N = int(input())
-table = []
-dp = [0 for _ in range(N+1)]
-for _ in range(N):
-    t, p = map(int, input().split())
-    table.append([t,p])
+import sys
+input = sys.stdin.readline
 
-for idx in range(N)[::-1]:
-    if idx + table[idx][0] > N :
-        dp[idx] = dp[idx + 1]
-    else :
-        dp[idx] = max(dp[idx + table[idx][0]] + table[idx][1], dp[idx + 1])
+def main():
+    n = int(input())
+    c = [[] for _ in range(n)]
+    for i in range(n):
+        a,b = map(int, input().split())
+        c[i] = [a,b]
 
-print(dp[0])
+    money = [0 for _ in range(n+1)]
+    for i in range(n-1,-1,-1):
+        if c[i][0] + i > n:
+            money[i] = money[i+1]
+            continue
+        money[i] = max(c[i][1] + money[i+c[i][0]], money[i+1])
+    print(max(money))
+
+if __name__ == '__main__':
+    main()
