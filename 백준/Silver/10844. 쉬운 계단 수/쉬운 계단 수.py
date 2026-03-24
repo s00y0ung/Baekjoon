@@ -1,9 +1,17 @@
-N = int(input())
-stick =[[0 for _ in range(10)] for _ in range(N+1)]
-stick[1] = [0,1,1,1,1,1,1,1,1,1]
-for idx in range(2,N+1):
-    stick[idx][0] = stick[idx-1][1]
-    stick[idx][9] = stick[idx-1][8]
-    for i in range(1, 9):
-        stick[idx][i] = (stick[idx-1][i-1] + stick[idx-1][i+1]) % 1000000000
-print(sum(stick[N]) % 1000000000)
+import sys
+input = sys.stdin.readline
+
+def main():
+    n = int(input())
+    d = [[0 for _ in range(10)] for _ in range(n+1)]
+    d[1] = [0,1,1,1,1,1,1,1,1,1]
+
+    for i in range(2,n+1):
+        d[i][0] += d[i-1][1]
+        d[i][9] += d[i-1][8]
+        for j in range(1,9):
+            d[i][j] += ((d[i-1][j-1] + d[i-1][j+1])%1000000000)
+    print(sum(d[n])%1000000000)
+
+if __name__ == '__main__':
+    main()
