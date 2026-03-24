@@ -1,10 +1,13 @@
-N = int(input())
-d = [[0,0] for _ in range(N+1)]
+import sys
+input = sys.stdin.readline
 
-d[1][0] = 0
-d[1][1] = 1
+def main():
+    n = int(input())
+    d = [[0,0],[0,1],[1,0]]
 
-for idx in range(2, N+1):
-    d[idx][0] = d[idx-1][0] + d[idx-1][1]
-    d[idx][1] = d[idx-1][0]
-print(d[N][0] + d[N][1])
+    for i in range(3,n+1):
+        d.append([d[i-1][0]+d[i-1][1], d[i-1][0]])
+    print(sum(d[n]))
+    
+if __name__ == '__main__':
+    main()
