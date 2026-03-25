@@ -1,21 +1,29 @@
 import sys
 input = sys.stdin.readline
 
-s1 = [0] + list(input().rstrip())
-s2 = [0] + list(input().rstrip())
-l1 = len(s1)
-l2 = len(s2)
+def main():
+    s1 = list(input().strip())
+    s2 = list(input().strip())
 
-g = [[""] * l2 for _ in range(l1)]
-
-for i in range(1,l1):
-    for j in range(1,l2):
-        if s1[i] == s2[j]:
-            g[i][j] = g[i-1][j-1] + s1[i]
-        else:
-            if len(g[i-1][j]) >= len(g[i][j-1]):
-                g[i][j] = g[i-1][j]
+    d = [[[0,''] for _ in range(len(s1)+1)] for _ in range(len(s2)+1)]
+    ans = [0,'']
+    for i in range(1,len(s2)+1):
+        for j in range(1,len(s1)+1):
+            if s2[i-1] == s1[j-1]:
+                d[i][j][0] = d[i-1][j-1][0]+1
+                d[i][j][1] = d[i-1][j-1][1]+s2[i-1]
             else:
-                g[i][j] = g[i][j-1]
+                if d[i-1][j][0] > d[i][j-1][0]:
+                    d[i][j][0] = d[i-1][j][0]
+                    d[i][j][1] = d[i-1][j][1]
+                else:
+                    d[i][j][0] = d[i][j-1][0]
+                    d[i][j][1] = d[i][j-1][1]
+            if d[i][j][0] > ans[0]:
+                ans = [d[i][j][0], d[i][j][1]]
+    print(ans[0])
+    if ans[0] != 0:
+        print(ans[1])
 
-print(len(g[-1][-1]), g[-1][-1], sep = '\n')
+if __name__ == '__main__':
+    main()
