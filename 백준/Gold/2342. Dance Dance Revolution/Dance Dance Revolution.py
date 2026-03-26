@@ -1,30 +1,31 @@
 import sys
 input = sys.stdin.readline
 
-m = [[-1,2,2,2,2],[2,1,3,4,3],[2,3,1,3,4],[2,4,3,1,3],[2,3,4,3,1]]
-move_list = list(map(int, input().split()))
-dp = [[[1000000 for _ in range(5)] for _ in range(5)] for _ in range(len(move_list)+1)]
-dp[0][0][0] = 0
-
-s = 1
-for idx in range(len(move_list)-1):
-    n = move_list[idx]
-    for i in range(5):
-        for j in range(5):
+def main():
+    w = [[-1,2,2,2,2],[2,1,3,4,3],[2,3,1,3,4],[2,4,3,1,3],[2,3,4,3,1]]
+    g = list(map(int, input().split()))
+    step = [[[1000000 for _ in range(5)] for _ in range(5)] for _ in range(len(g))]
+    step[0][0][0] = 0
+    s = 1
+    for idx in range(len(g)-1):
+        n = g[idx]
+        for i in range(5):
             if i == n:
                 continue
-            dp[s][i][n] = min(dp[s-1][i][j] + m[j][n], dp[s][i][n])
+            for j in range(5):
+                step[s][i][n] = min(step[s-1][i][j] + w[j][n], step[s][i][n])
+        for i in range(5):
+            for j in range(5):
+                if j == n:
+                    continue
+                step[s][n][j] = min(step[s-1][i][j] + w[i][n], step[s][n][j])
+        s += 1
+    minval = 1000000
     for i in range(5):
         for j in range(5):
-            if j == n:
-                continue
-            dp[s][n][j] = min(dp[s-1][i][j] + m[i][n], dp[s][n][j])
-    s += 1
+            minval = min(minval, step[s-1][i][j])
 
+    print(minval)
 
-minVal = 1000000
-for i in range(5):
-    for j in range(5):
-        if minVal > dp[s-1][i][j]:
-            minVal = dp[s-1][i][j]
-print(minVal)
+if __name__ == '__main__':
+    main()
