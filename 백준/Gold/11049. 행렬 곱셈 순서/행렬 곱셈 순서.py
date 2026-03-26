@@ -1,21 +1,19 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
-matrix = [list(map(int, input().split())) for _ in range(N)]
-DP = [[0]*N for _ in range(N)]
+def main():
+    n = int(input())
+    m = [list(map(int, input().split())) for _ in range(n)]
+    dp = [[0]*n for _ in range(n)]
 
-# 분할된 그룹의 크기를 1부터 N-1까지 돎
-for size in range(1, N):
-	# 크기 size인 그룹의 모든 경우의 수 돎
-    for start in range(N - size):
-        end = start + size
-        
-        # 어떤 그룹의 최소 곱셈 횟수는 분할한 두 그룹의 최소 곱셈 횟수 + 각 그룹의 곱셈 다 끝나고 남은 행렬끼리의 곱셈 횟수
-        result = float("inf")
-        for cut in range(start, end):
-            result = min(result, DP[start][cut] + DP[cut+1][end] +
-                        matrix[start][0]*matrix[cut][1]*matrix[end][1])
-        DP[start][end] = result
+    for size in range(1, n):
+        for start in range(n-size):
+            end = start+size
 
-print(DP[0][-1])
+            result = 1e9
+            for c in range(start, end):
+                result = min(result, dp[start][c]+dp[c+1][end]+m[start][0]*m[c][1]*m[end][1])
+            dp[start][end] = result
+    print(dp[0][-1])
+if __name__ == '__main__':
+    main()
