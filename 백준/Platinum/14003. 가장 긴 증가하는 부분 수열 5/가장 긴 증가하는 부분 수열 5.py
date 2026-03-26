@@ -1,39 +1,40 @@
 import sys
 input = sys.stdin.readline
 
-def binary_search(a, lis):
-    left = 0
-    right = len(lis)
+def binary_search(LIS, target, start, end):
 
-    while left < right:
-        mid = (left + right)//2
-        if lis[mid] < a:
-            left = mid + 1
+    while start < end:
+        mid = (start + end) // 2
+        if LIS[mid] < target:
+            start = mid+1
         else:
-            right = mid
-    return right
+            end = mid
+    return start
 
-N = int(input())
-a_list = list(map(int, input().split()))
-lis = [a_list[0]]
-ans = [0 for i in range(N)]
-idx = 0
-for a in a_list[1:]:
-    idx += 1
-    if a > lis[-1]:
-        lis.append(a)
-        ans[idx] = len(lis)-1
-    else:
-        b = binary_search(a, lis)
-        lis[b] = a
-        ans[idx] = b
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
 
-s = len(lis) - 1
-s_list = []
-for idx in range(N-1,-1,-1):
-    if ans[idx] == s:
-        s_list.append(a_list[idx])
-        s -= 1
+    LIS = [arr[0]]
+    dp = [0 for _ in range(n)]
+    dp[0] = 1
+    for i in range(1, n):
+        if arr[i] > LIS[-1]:
+            LIS.append(arr[i])
+            dp[i] = len(LIS)
+        else:
+            s = binary_search(LIS,arr[i],0,len(LIS))
+            LIS[s] = arr[i]
+            dp[i] = s+1
 
-print(len(lis))
-print(*s_list[::-1])
+    max_t = len(LIS)
+    print(max_t)
+    ans = []
+    for c in range(n-1,-1,-1):
+        if dp[c] == max_t:
+            ans.append(arr[c])
+            max_t -= 1
+    print(*ans[::-1])
+
+if __name__ == '__main__':
+    main()
