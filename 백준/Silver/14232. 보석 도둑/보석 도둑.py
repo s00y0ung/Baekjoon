@@ -1,17 +1,19 @@
-k = int(input())
-weight = k
-w_list = []
+import sys
+input = sys.stdin.readline
 
-while weight % 2 == 0:
-    w_list.append(2)
-    weight = weight / 2
-    
-for i in range(3, int(k**0.5)+1,2):
-    while weight % i == 0:
-        w_list.append(i)
-        weight = weight / i
+def main():
+    N = int(input())
+    ans = []
+    for i in range(2, int(N**0.5)+1):
+        if N % i != 0:
+            continue
 
-if weight != 1:
-    w_list.append(int(weight))
-print(len(w_list))
-print(*w_list)
+        while N % i == 0:
+            N //= i
+            ans.append(i)
+    if N != 1:
+        ans.append(N)
+    print(len(ans))
+    print(*ans)
+if __name__ == '__main__':
+    main()
