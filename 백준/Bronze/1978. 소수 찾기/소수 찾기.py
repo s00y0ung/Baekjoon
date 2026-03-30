@@ -1,16 +1,21 @@
-N = int(input())
-prime = list(map(int, input().split()))
-count = 0
+import sys
+input = sys.stdin.readline
 
-for p in prime:
-    flag = 0
-    if p == 1:
-        continue
-        
-    for i in range(2, p): 
-        if p % i == 0:
-            flag = 1
-            break
-    if flag == 0:
-        count += 1
-print(count)
+def main():
+    n = int(input())
+    a = list(map(int, input().split()))
+    prime = [0]*1001
+    prime[1] = 1
+    for i in range(2,1001):
+        if prime[i] == 0:
+            for j in range(i+i,1001,i):
+                prime[j] = 1
+
+    ans = 0
+    for c in a:
+        if prime[c] == 0:
+            ans += 1
+    print(ans)
+
+if __name__ == '__main__':
+    main()
